@@ -35,9 +35,21 @@ Since we have been focusing on the structure of the projects and testing out dif
 
    Download this file https://github.com/saphanaacademy/Live3HCP 
    
-4. Step 4 
+4. Step 4  
    Go to scripts folder  in the Live3HCP file and click on the first file , "01 setupSchema.sql" and run the first line,"
-   SELECT SCHEMA_NAME FROM "HCP"."HCP_DEV_METADATA";  
+   SELECT SCHEMA_NAME FROM "HCP"."HCP_DEV_METADATA"; on the JAVA sql command.   
+   
+   You will get the schema name.  
+  
+   Then choose the fourth line, "SET SCHEMA NEO_;" and replace "NEO_" with your Schema Name and run the command on the sql    command in java.
+
+   Now, go to the "02 setupTable.sql" and copy the code and paste in on the sql command and run it
+   
+5. Assuming that you have a twitter account, now go to https://apps.twitter.com/app/new to create a new app and get the       Access Key.  
+ 
+   
+
+
 
    
 
