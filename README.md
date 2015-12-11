@@ -36,6 +36,9 @@ Since we have been focusing on the structure of the projects and testing out dif
    Download this file https://github.com/saphanaacademy/Live3HCP 
    
 4. Step 4 
+   Go to scripts folder  in the Live3HCP file and click on the first file , "01 setupSchema.sql" and run the first line,"
+   SELECT SCHEMA_NAME FROM "HCP"."HCP_DEV_METADATA";  
+
    
 
 
