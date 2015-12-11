@@ -14,9 +14,14 @@ Since we have been focusing on the structure of the projects and testing out dif
 2. Step 2  
    -> Register on this website, https://account.hanatrial.ondemand.com/  
    -> Log in using your account 
+   -> Create a new HANA Instance. Ideally, call it dev
    -> On the dashboard, click on Useful Links and click on tools  
    ->Then, click on the tab "CLOUD"  <br>
      and download SAP HANA Cloud Platform SDK
+3. Step 3 
+   -> Go back to Eclipse and add Add  Cloud System .
+   -> Enter your credential 
+   
 
 
 
