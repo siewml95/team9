@@ -6,7 +6,7 @@ Since we have been focusing on the structure of the projects and testing out dif
    -> Download and install Eclipse IDE for Java EE Developers
    -> Open eclipse and click on help and then click on install new software
    -> Then enter "https://tools.hana.ondemand.com/luna" or <br/>
-      "https://tools.hana.ondemand.com/mars" depending on your eclipse 
+      "https://tools.hana.ondemand.com/mars" depending on your eclipse <br/>
        version  
    -> Then choose
    -> Install new
