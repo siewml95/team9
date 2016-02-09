@@ -1,1 +1,234 @@
+<html>
+<body>
+<link rel="stylesheet" type="text/css" href="style.css">
+            
+        <div class="main-container">
 
+<h6>Twitter Analysis</h6>
+
+            <!-- LEFT-CONTAINER -->
+            <div class="left-container container">
+                <div class="menu-box block"> 
+                    <h2 class="titular">MENU BOX</h2>
+                    <ul class="menu-box-menu">
+                        <li>
+                            <a class="menu-box-tab" href="#12"><span class="icon entypo-cog scnd-font-color"></span>Account Settings</a>
+                        </li>
+                        <li>
+                            <a class="menu-box-tab" href="#13"><sapn class="icon entypo-chart-line scnd-font-color"></sapn>Statistics</a>
+                        </li>                        
+                    </ul>
+                </div>
+                <div class="donut-chart-block block"> 
+                    <h2 class="titular">Number of Mentions</h2>
+                    <div class="donut-chart">
+                                         
+
+                        <p class="center-date">87.6%<br></p> 
+                    </div>
+                     <img src="demand.jpg"  align="left" style="width:402px;height:328px;">
+                    
+                </div>
+                
+                
+            </div>
+
+            <!-- MIDDLE-CONTAINER -->
+            <div class="middle-container container">
+                
+                
+                <div class="tweets block"> <!-- TWEETS (MIDDLE-CONTAINER) -->
+                    <img src="chart.jpg" align="middle"  style="width:260px;height:228px;">
+                                        <h3>Influence Chart</h3>
+
+                    
+                    
+              
+
+              </div>
+          </div>
+           
+
+            <!-- RIGHT-CONTAINER -->
+            <div class="right-container container">
+                <div class="join-newsletter block"> <!-- JOIN NEWSLETTER (RIGHT-CONTAINER) -->
+                    <h2 class="titular">Search</h2>
+                    <select>
+  <option value="selectalanguage">Select a language...</option>
+  <option value="English">English</option>
+  <option value="Arabic">Arabic</option>
+  <option value="French">French</option>
+  <option value="Italian">Italian</option>
+</select>
+<select>
+  <option value="selectacountry">Select a country...</option>
+  <option value="unitedkingdom">United Kingdom</option>
+  <option value="unitedstates">United States</option>
+  <option value="france">France</option>
+  <option value="italy">Italy</option>
+</select>
+<fieldset class="date"> 
+  <legend>Start Date </legend> 
+  <label for="month_start">Month</label> 
+  <select id="month_start" 
+          name="month_start" /> 
+    <option>January</option>       
+    <option>February</option>       
+    <option>March</option>       
+    <option>April</option>       
+    <option>May</option>       
+    <option>June</option>       
+    <option>July</option>       
+    <option>August</option>       
+    <option>September</option>       
+    <option>October</option>       
+    <option>November</option>       
+    <option>December</option>       
+  </select> - 
+  <label for="day_start">Day</label> 
+  <select id="day_start" 
+          name="day_start" /> 
+    <option>1</option>       
+    <option>2</option>       
+    <option>3</option>       
+    <option>4</option>       
+    <option>5</option>       
+    <option>6</option>       
+    <option>7</option>       
+    <option>8</option>       
+    <option>9</option>       
+    <option>10</option>       
+    <option>11</option>       
+    <option>12</option>       
+    <option>13</option>       
+    <option>14</option>       
+    <option>15</option>       
+    <option>16</option>       
+    <option>17</option>       
+    <option>18</option>       
+    <option>19</option>       
+    <option>20</option>       
+    <option>21</option>       
+    <option>22</option>       
+    <option>23</option>       
+    <option>24</option>       
+    <option>25</option>       
+    <option>26</option>       
+    <option>27</option>       
+    <option>28</option>       
+    <option>29</option>       
+    <option>30</option>       
+    <option>31</option>       
+  </select> - 
+  <label for="year_start">Year</label> 
+  <select id="year_start" 
+         name="year_start" /> 
+    <option>2009</option>       
+    <option>2010</option>       
+    <option>2011</option>       
+    <option>2012</option>       
+    <option>2013</option>       
+    <option>2014</option>       
+    <option>2015</option>       
+    <option>2016</option>       
+    <option>2017</option>       
+    <option>2018</option>       
+  </select> 
+  
+</fieldset> 
+
+<fieldset class="date"> 
+  <legend>End Date </legend> 
+  <label for="month_end">Month</label> 
+  <select id="month_end" 
+          name="month_end" /> 
+    <option>January</option>       
+    <option>February</option>       
+    <option>March</option>       
+    <option>April</option>       
+    <option>May</option>       
+    <option>June</option>       
+    <option>July</option>       
+    <option>August</option>       
+    <option>September</option>       
+    <option>October</option>       
+    <option>November</option>       
+    <option>December</option>       
+  </select> - 
+  <label for="day_end">Day</label> 
+  <select id="day_end" 
+          name="day_end" /> 
+    <option>1</option>       
+    <option>2</option>       
+    <option>3</option>       
+    <option>4</option>       
+    <option>5</option>       
+    <option>6</option>       
+    <option>7</option>       
+    <option>8</option>       
+    <option>9</option>       
+    <option>10</option>       
+    <option>11</option>       
+    <option>12</option>       
+    <option>13</option>       
+    <option>14</option>       
+    <option>15</option>       
+    <option>16</option>       
+    <option>17</option>       
+    <option>18</option>       
+    <option>19</option>       
+    <option>20</option>       
+    <option>21</option>       
+    <option>22</option>       
+    <option>23</option>       
+    <option>24</option>       
+    <option>25</option>       
+    <option>26</option>       
+    <option>27</option>       
+    <option>28</option>       
+    <option>29</option>       
+    <option>30</option>       
+    <option>31</option>       
+  </select> - 
+  <label for="year_end">Year</label> 
+  <select id="year_end" 
+         name="year_end" /> 
+    <option>2009</option>       
+    <option>2010</option>       
+    <option>2011</option>       
+    <option>2012</option>       
+    <option>2013</option>       
+    <option>2014</option>       
+    <option>2015</option>       
+    <option>2016</option>       
+    <option>2017</option>       
+    <option>2018</option>       
+  </select> 
+
+</fieldset> 
+        <input type="button" value="Upload File">
+
+<form>
+        <input type="text" placeholder="Search..." required>
+                <input type="button" value="Search">
+
+
+
+</form>
+                    
+                    
+                </div>
+                
+
+                                <img src="table.jpg"  align="right" style="width:402px;height:228px;">
+
+                </div>
+                
+                    
+                    
+              
+               
+            </div> <!-- end right-container -->
+        </div> <!-- end main-container -->
+    </body>
+</html>
