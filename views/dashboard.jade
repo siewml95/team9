@@ -1,0 +1,181 @@
+html
+  body
+    link(rel='stylesheet', type='text/css', href='stylesheets/style.css')
+    .main-container
+      h6 Twitter Analysis
+      // LEFT-CONTAINER
+      .left-container.container
+        .menu-box.block
+          h2.titular MENU BOX
+          ul.menu-box-menu
+            li
+              a.menu-box-tab(href='#12')
+                span.icon.entypo-cog.scnd-font-color
+                | Account Settings
+            li
+              a.menu-box-tab(href='#13')
+                sapn.icon.entypo-chart-line.scnd-font-color
+                | Statistics
+        .donut-chart-block.block
+          h2.titular Number of Mentions
+          .donut-chart
+            p.center-date
+              | 87.6%
+              br
+          img(src='images/demand.jpg', align='left', style='width:402px;height:328px;')
+      // MIDDLE-CONTAINER
+      .middle-container.container
+        .tweets.block
+          // TWEETS (MIDDLE-CONTAINER)
+          img(src='images/chart.jpg', align='middle', style='width:260px;height:228px;')
+          h3 Influence Chart
+      // RIGHT-CONTAINER
+      .right-container.container
+       form
+        .join-newsletter.block
+          // JOIN NEWSLETTER (RIGHT-CONTAINER)
+          h2.titular Search
+          select
+            option(value='selectalanguage') Select a language...
+            option(value='English') English
+            option(value='Arabic') Arabic
+            option(value='French') French
+            option(value='Italian') Italian
+          select
+            option(value='selectacountry') Select a country...
+            option(value='unitedkingdom') United Kingdom
+            option(value='unitedstates') United States
+            option(value='france') France
+            option(value='italy') Italy
+          fieldset.date
+            legend Start Date
+            label(for='month_start') Month
+            select#month_start(name='month_start')
+              option January
+              option February
+              option March
+              option April
+              option May
+              option June
+              option July
+              option August
+              option September
+              option October
+              option November
+              option December
+            |  -
+            label(for='day_start') Day
+            select#day_start(name='day_start')
+              option 1
+              option 2
+              option 3
+              option 4
+              option 5
+              option 6
+              option 7
+              option 8
+              option 9
+              option 10
+              option 11
+              option 12
+              option 13
+              option 14
+              option 15
+              option 16
+              option 17
+              option 18
+              option 19
+              option 20
+              option 21
+              option 22
+              option 23
+              option 24
+              option 25
+              option 26
+              option 27
+              option 28
+              option 29
+              option 30
+              option 31
+            |  -
+            label(for='year_start') Year
+            select#year_start(name='year_start')
+              option 2009
+              option 2010
+              option 2011
+              option 2012
+              option 2013
+              option 2014
+              option 2015
+              option 2016
+              option 2017
+              option 2018
+          fieldset.date
+            legend End Date
+            label(for='month_end') Month
+            select#month_end(name='month_end')
+              option January
+              option February
+              option March
+              option April
+              option May
+              option June
+              option July
+              option August
+              option September
+              option October
+              option November
+              option December
+            |  -
+            label(for='day_end') Day
+            select#day_end(name='day_end')
+              option 1
+              option 2
+              option 3
+              option 4
+              option 5
+              option 6
+              option 7
+              option 8
+              option 9
+              option 10
+              option 11
+              option 12
+              option 13
+              option 14
+              option 15
+              option 16
+              option 17
+              option 18
+              option 19
+              option 20
+              option 21
+              option 22
+              option 23
+              option 24
+              option 25
+              option 26
+              option 27
+              option 28
+              option 29
+              option 30
+              option 31
+            |  -
+            label(for='year_end') Year
+            select#year_end(name='year_end')
+              option 2009
+              option 2010
+              option 2011
+              option 2012
+              option 2013
+              option 2014
+              option 2015
+              option 2016
+              option 2017
+              option 2018
+          input(type='button', value='Upload File')
+          input(type='text', placeholder='Search...', required='')
+          input(type='button', value='Search')
+        img(src='images/table.jpg', align='right', style='width:402px;height:228px;')
+    // end right-container
+    // end main-container
