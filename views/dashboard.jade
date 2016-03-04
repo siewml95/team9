@@ -1,4 +1,9 @@
 html
+  head
+   script(src="//code.jquery.com/jquery-1.11.2.min.js")
+   script(src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js")
+   script(src="javascripts/Chart.min.js")
+
   body
     link(rel='stylesheet', type='text/css', href='stylesheets/style.css')
     .main-container
@@ -19,29 +24,30 @@ html
         .donut-chart-block.block
           h2.titular Number of Mentions
           .donut-chart
-            p.center-date
-              | 87.6%
+            p#mentions.center-date
+              | 0
               br
-          img(src='images/demand.jpg', align='left', style='width:402px;height:328px;')
+          canvas#myChart(width='600', height='400')
       // MIDDLE-CONTAINER
       .middle-container.container
         .tweets.block
           // TWEETS (MIDDLE-CONTAINER)
-          img(src='images/chart.jpg', align='middle', style='width:260px;height:228px;')
-          h3 Influence Chart
+          canvas#myChartSentiment(width='300', height='275')
+          h3 Sentiment Chart
+
       // RIGHT-CONTAINER
       .right-container.container
-       form
+       form(id="form",method="post",action="/search")
         .join-newsletter.block
           // JOIN NEWSLETTER (RIGHT-CONTAINER)
           h2.titular Search
-          select
-            option(value='selectalanguage') Select a language...
-            option(value='English') English
-            option(value='Arabic') Arabic
-            option(value='French') French
-            option(value='Italian') Italian
-          select
+          select(name="language").blo
+            option(value='none') Select a language...
+            option(value='en') English
+            option(value='fr') French
+            option(value='es') Spanish
+            option(value='ja') Japanese
+          select(name="country").blo
             option(value='selectacountry') Select a country...
             option(value='unitedkingdom') United Kingdom
             option(value='unitedstates') United States
@@ -51,131 +57,135 @@ html
             legend Start Date
             label(for='month_start') Month
             select#month_start(name='month_start')
-              option January
-              option February
-              option March
-              option April
-              option May
-              option June
-              option July
-              option August
-              option September
-              option October
-              option November
-              option December
+              option(value="01") January
+              option(value="02") February
+              option(value="03") March
+              option(value="04") April
+              option(value="05") May
+              option(value="06") June
+              option(value="07") July
+              option(value="08") August
+              option(value="09") September
+              option(value="10") October
+              option(value="11") November
+              option(value="12") December
             |  -
             label(for='day_start') Day
             select#day_start(name='day_start')
-              option 1
-              option 2
-              option 3
-              option 4
-              option 5
-              option 6
-              option 7
-              option 8
-              option 9
-              option 10
-              option 11
-              option 12
-              option 13
-              option 14
-              option 15
-              option 16
-              option 17
-              option 18
-              option 19
-              option 20
-              option 21
-              option 22
-              option 23
-              option 24
-              option 25
-              option 26
-              option 27
-              option 28
-              option 29
-              option 30
-              option 31
+              option(value="01") 1
+              option(value="02") 2
+              option(value="03") 3
+              option(value="04") 4
+              option(value="05") 5
+              option(value="06") 6
+              option(value="07") 7
+              option(value="08") 8
+              option(value="09") 9
+              option(value="10") 10
+              option(value="11") 11
+              option(value="12") 12
+              option(value="13") 13
+              option(value="14") 14
+              option(value="15") 15
+              option(value="16") 16
+              option(value="17") 17
+              option(value="18") 18
+              option(value="19") 19
+              option(value="20") 20
+              option(value="21") 21
+              option(value="22") 22
+              option(value="23") 23
+              option(value="24") 24
+              option(value="25") 25
+              option(value="26") 26
+              option(value="27") 27
+              option(value="28") 28
+              option(value="29") 29
+              option(value="30") 30
+              option(value="31") 31
             |  -
             label(for='year_start') Year
             select#year_start(name='year_start')
-              option 2009
-              option 2010
-              option 2011
-              option 2012
-              option 2013
-              option 2014
-              option 2015
-              option 2016
-              option 2017
-              option 2018
+              option(value="2009") 2009
+              option(value="2010") 2010
+              option(value="2011") 2011
+              option(value="2012") 2012
+              option(value="2013") 2013
+              option(value="2014") 2014
+              option(value="2015") 2015
+              option(value="2016") 2016
+
           fieldset.date
             legend End Date
             label(for='month_end') Month
             select#month_end(name='month_end')
-              option January
-              option February
-              option March
-              option April
-              option May
-              option June
-              option July
-              option August
-              option September
-              option October
-              option November
-              option December
+              option(value="01") January
+              option(value="02") February
+              option(value="03") March
+              option(value="04") April
+              option(value="05") May
+              option(value="06") June
+              option(value="07") July
+              option(value="08") August
+              option(value="09") September
+              option(value="10") October
+              option(value="11") November
+              option(value="12") December
             |  -
             label(for='day_end') Day
             select#day_end(name='day_end')
-              option 1
-              option 2
-              option 3
-              option 4
-              option 5
-              option 6
-              option 7
-              option 8
-              option 9
-              option 10
-              option 11
-              option 12
-              option 13
-              option 14
-              option 15
-              option 16
-              option 17
-              option 18
-              option 19
-              option 20
-              option 21
-              option 22
-              option 23
-              option 24
-              option 25
-              option 26
-              option 27
-              option 28
-              option 29
-              option 30
-              option 31
+                option(value="01") 1
+                option(value="02") 2
+                option(value="03") 3
+                option(value="04") 4
+                option(value="05") 5
+                option(value="06") 6
+                option(value="07") 7
+                option(value="08") 8
+                option(value="09") 9
+                option(value="10") 10
+                option(value="11") 11
+                option(value="12") 12
+                option(value="13") 13
+                option(value="14") 14
+                option(value="15") 15
+                option(value="16") 16
+                option(value="17") 17
+                option(value="18") 18
+                option(value="19") 19
+                option(value="20") 20
+                option(value="21") 21
+                option(value="22") 22
+                option(value="23") 23
+                option(value="24") 24
+                option(value="25") 25
+                option(value="26") 26
+                option(value="27") 27
+                option(value="28") 28
+                option(value="29") 29
+                option(value="30") 30
+                option(value="31") 31
             |  -
             label(for='year_end') Year
             select#year_end(name='year_end')
-              option 2009
-              option 2010
-              option 2011
-              option 2012
-              option 2013
-              option 2014
-              option 2015
-              option 2016
-              option 2017
-              option 2018
-          input(type='button', value='Upload File')
-          input(type='text', placeholder='Search...', required='')
-          input(type='button', value='Search')
-        img(src='images/table.jpg', align='right', style='width:402px;height:228px;')
+                option(value="2009") 2009
+                option(value="2010") 2010
+                option(value="2011") 2011
+                option(value="2012") 2012
+                option(value="2013") 2013
+                option(value="2014") 2014
+                option(value="2015") 2015
+                option(value="2016") 2016
+          input(type='button', value='Upload File').blo
+          input(type='text', name="text",placeholder='Search...',required='').search
+          input(type='submit', value='Search')
+      h2#title User Cluster VS Number of users
+      canvas#myChart(width='950', height='400')
+      table#tweets
+       tbody
+        
+
+
+    script(src="javascripts/index.js")
     // end right-container
     // end main-container

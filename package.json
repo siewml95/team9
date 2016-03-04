@@ -21,7 +21,9 @@
   "fs": "0.0.2",
   "request": "~2.27.0",
   "k-means" : "1.0.0",
-  "kmeans-js" : "0.1.2"
+  "kmeans-js" : "0.1.2",
+  "clusterfck" : "0.6.0",
+  "underscore" : "1.4.2"
 
   }
 }

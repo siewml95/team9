@@ -7,17 +7,11 @@ var kMeans = require('kmeans-js');
 var km = new kMeans({
     K: 10
 });
-var clusterfck = require("clusterfck");
-
-
 
 function createTempTweets(tweets,callback) {
   db.query("TRUNCATE TABLE TweetsTemp", function(err) {
     if(err) console.log(err);
     else {
-      var positiveno = 0;
-      var negativeno = 0;
-      var neutralno = 0;
       tweets.forEach(function(tweet,index) {
         var TA_TYPE;
         var sql = {"id" : tweet.id, "createdAt" : tweet.createdAt , "text" : tweet.text , "lang" : tweet.lang ,"user" : tweet.user , "replyUser" : tweet.replyUser, "retweetedUser" : tweet.retweetedUser, 'lat' : tweet.lat , 'lon' : tweet.lon , 'keyword' : tweet.keyword };
@@ -26,22 +20,13 @@ function createTempTweets(tweets,callback) {
              console.log("Sentiment: " + response[  "docSentiment"]["type"]);
              TA_TYPE =  response[  "docSentiment"]["type"] ;
              sql['TA_TYPE'] = TA_TYPE;
-             if(TA_TYPE == 'positive') {
-               positiveno++;
-             }
-             else if(TA_TYPE == 'negative') {
-               negativeno++;
-             }
-             else {
-               neutralno++;
-             }
              db.query('INSERT INTO TweetsTemp SET ?', sql,function(err, result) {
                if (err) throw err;
                else {
 				   		   console.log('TEMP Tweets inserted:', tweet.id, tweet.createdAt);
                  if(index >= tweets.length - 1) {
                    console.log('finished');
-                   callback(null,positiveno,negativeno,neutralno);
+                   callback(null);
                  }
 				     	 }
 		    		 });
@@ -50,14 +35,13 @@ function createTempTweets(tweets,callback) {
              console.log("Sentiment : undefined");
              TA_TYPE = 'undefined';
              sql['TA_TYPE'] = TA_TYPE;
-             neutralno++;
              db.query('INSERT INTO TweetsTemp SET ?', sql,function(err, result) {
                if (err) throw err;
                else {
                 console.log('TEMP Tweets inserted:', tweet.id, tweet.createdAt);
                 if(index >= tweets.length - 1) {
                   console.log('finished');
-                  callback(null,positiveno,negativeno,neutralno);
+                  callback(null);
                 }
               }
             });
@@ -85,262 +69,9 @@ function createTweeters(tweets,callback) {
  });
 };
 
-function createClusters(tweeters,array,index2,callback) {
-   //console.log('fuck4');
+/*function createClusters(tweeters,callback) {
    var vectors =[];
-   var array2 = [];
-   var array3 = [];
    tweeters.forEach(function(tweeter,index) {
-      vectors[index] = [tweeter.stance,tweeter.influence];
-      if(index >= tweeters.length - 1) {
-        kmeans.clusterize(vectors, {k : 10}, function(err, cluster){
-          if(err) {
-            console.log(err);
-          //  callback(err,null)
-          }
-          else {
-          //  console.log('%o',JSON.stringify(cluster));
-          //  callback(null,cluster);
-           for(var  i = 0; i<10;i++) {
-              array2[i] = cluster[i].centroid;
-              if(array2[i] == 0)
-                 i--;
-
-              if(i == 9) {
-                console.log('unsorted ' + JSON.stringify(array2));
-                var sortedI = array2.sort(compareInfluence);
-                var sortedS = sortedI.sort(compareStance);
-                console.log('sorted' + JSON.stringify(sortedS));
-                callback(sortedS);
-              }
-           }
-          }
-        });
-      }
-   });
-};
-
-function siArray(tweeters,callback) {
-  var vectors = [];
-  tweeters.forEach(function(tweeter,index) {
-     vectors[index] = [tweeter.stance,tweeter.influence];
-     if(index >= tweeters.length - 1) {
-       callback(vectors);
-     }
-   });
-}
-
-function getRidZero(array,callback) {
-  var length = array.length;
-  var bool = true;
-  while(bool) {
-   length = array.length
-   for(var i = 0; i < length ; i++){
-	    if (array[i] == 0 || array[i] == undefined || array[i] == null) array.splice(i, 1);
-      if(i >= length - 1) {
-        bool = (array.indexOf(0) != -1 || array.indexOf(undefined) != -1 || array.indexOf(null) != -1)
-        if(!bool) {
-        //  console.log('zerorid ' + JSON.stringify(array))
-          callback(array);
-          return ;
-        }
-      }
-   }
- }
-};
-
-function finalCluster(tweeters,centroid,callback) {
-  var kk = new clusterfck.Kmeans(centroid);
-   console.log('fuck')
-  siArray(tweeters,function(vectors) {
-    var clusters = [0,0,0,0,0,0,0,0,0,0]
-
-    vectors.forEach(function(vector,index) {
-      var clusterIndex = kk.classify(vector);
-      clusters[clusterIndex] += 1;
-      console.log('vector ' + JSON.stringify(vector))
-      console.log('len ' + JSON.stringify(clusterIndex))
-      if(index >= vectors.length - 1) {
-       callback(clusters)
-      }
-    });
-  });
-}
-
-function iterateClusters(tweeters,callback) {
-  console.log('ficl')
-   var clusters = new Array(100);
-   for(var i = 0;i <100;i++)
-      clusters[i] = 0;
-   clusters.forEach(function(cluster,index) {
-       //console.log('fuck3');
-       createClusters(tweeters,clusters,index,function(result) {
-           clusters[index] = result;
-      //     console.log('Done ' + result);
-           if(index >= clusters.length - 1) {
-          //   console.log('finish' + JSON.stringify(clusters));
-             callback(clusters);
-           }
-       });
-
-     });
-};
-
-function getAverageCentroids(array,callback) {
-    var result = [[0,0],[0,0], [0,0],[0,0],[0,0], [0,0],  [0,0], [0,0],  [0,0], [0,0]];
-    console.log('array : ' + array.length)
-    array.forEach(function(item,index) {
-      // console.log('item ' + JSON.stringify(item))
-       for(var i = 0; i < 10; i ++) {
-         result[i][0] += item[i][0];
-         result[i][1] += item[i][1];
-
-       if(i == 9 && index >= array.length - 1) {
-      //     console.log('result ' + JSON.stringify(result));
-           console.log('result ' + JSON.stringify(result))
-           callback(result);
-         }
-       }
-    })
-}
-
-function getAverageCentroid(length,array,callback) {
-   var array2 = [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]];
-   console.log('length ' + length);
-   array2.forEach(function(item,index) {
-    // console.log('check ' + JSON.stringify(array[index]) );
-     array2[index][0] = array[index][0] / length ;
-     array2[index][1] = array[index][1] / length ;
-     if(index >= 9) {
-       console.log('avearge ' + JSON.stringify(array2))
-
-       callback(array2);
-     }
-   })
-
-}
-
-//function finalClusters(tweeters,centroid,)
-
-exports.test = function(req,res,next) {
-  db.query('SELECT * FROM Tweeters',function(err,rows,fields) {
-    console.log('len rows : ' + rows.length)
-    if(err) throw err;
-    else {
-      iterateClusters(rows,function(clusters) {
-        getRidZero(clusters,function(clusters2) {
-          getAverageCentroids(clusters2,function(result) {
-            getAverageCentroid(clusters2.length,result,function(centroids) {
-              console.log('avearge ' + JSON.stringify(centroids))
-              finalCluster(rows,centroids,function(final){
-                   console.log('final data ' + JSON.stringify(final) )
-                   res.render('home' , {"data" : final, "labels" : [0,1,2,3,4,5,6,7,8,9], "mentions" : rows.length, "tweeters" : rows });
-              });
-
-            });
-        });
-      });
-    });
-  }
- });
-}
-
-
-exports.search = function(req,res,next) {
-  console.log(req.body.text);
-  var query = 'SELECT * FROM Tweets WHERE text LIKE "% ' + req.body.text + ' %"';
-  if(req.body.language != 'none') {
-    query += 'AND lang LIKE "' + req.body.language + '"';
-  }
-
-  var start_date = req.body.year_start + '-' + req.body.month_start + '-' + req.body.day_start;
-  if(start_date) {
-    query += 'AND createdAt >= "' + start_date + '"';
-  }
-  var end_date = req.body.year_end + '-' + req.body.month_end + '-' + req.body.day_end;
-  if(end_date) {
-    query += 'AND createdAt <= "' + end_date + '"';
-  }
-  console.log(start_date);
-
-  console.log(query);
-  db.query(query,function(err,rows,fields) {
-  //  console.log(JSON.stringify(rows));
-    console.log('len' + rows.length);
-    createTempTweets(rows,function(err,positiveno,negativeno,neutralno) {
-      if(err) throw err;
-       else  {
-         db.query('Select * FROM TweetsTemp',function(err,rows2,fields) {
-           if(err) throw err;
-           else {
-             createTweeters(rows2,function(err) {
-               if(err) throw err;
-                else  {
-                  db.query('SELECT * FROM Tweeters',function(err,rows3,fields) {
-                    if(err) throw err;
-                    else {
-                      iterateClusters(rows3,function(clusters) {
-                        getRidZero(clusters,function(clusters2) {
-                          getAverageCentroids(clusters2,function(result) {
-                            getAverageCentroid(clusters2.length,result,function(centroids) {
-                              console.log('avearge ' + JSON.stringify(centroids))
-                              finalCluster(rows3,centroids,function(final){
-                                   var sentiment = [positiveno,negativeno,neutralno];
-                                   console.log('final data ' + JSON.stringify(final) )
-                                   res.status(201);
-                                   res.json({"data" : final,  "mentions" : rows2.length, "tweets" : rows2, "tweeters" : rows3 , "sentiment" : sentiment});
-
-                              });
-
-                            });
-                        });
-                      });
-                    });
-                    }
-                  });
-
-                }
-              })
-           }
-         });
-
-       }
-     })
-
-  });
-}
-
-
-/*exports.clusters = function(req,res,next) {
-  db.query('SELECT * FROM Tweeters',function(err,rows,fields) {
-    if(err) throw err;
-    else {
-      createClusters(rows,function(err,cluster) {
-        if(err) throw err;
-        else {
-          console.log("Loop");
-          addIndex(cluster["clusterCenters"],function(err,indexArray) {
-
-          var sortedI = indexArray.sort(compareInfluence);
-          var sortedS = sortedI.sort(compareStance);
-          console.log('sortedS' + JSON.stringify(sortedS));
-          getData(cluster.finalMatrix,sortedS,function(err,data) {
-             createLabel(data,function(err,labels) {
-               res.render('home',{data : data,labels : labels});
-             })
-
-          })
-        })
-
-       }
-      });
-    }
-  });
-};
- */
-
-
-/*   tweeters.forEach(function(tweeter,index) {
      console.log( index + ' / ' + tweeters.length );
       vectors[index] = [tweeter.stance,tweeter.influence];
       if(index >= tweeters.length - 1) {
@@ -358,7 +89,7 @@ exports.search = function(req,res,next) {
    });
 }; */
 
-/*function createClusters(tweeters,callback) {
+function createClusters(tweeters,callback) {
    var vectors =[];
    tweeters.forEach(function(tweeter,index) {
       vectors[index] = [tweeter.stance,tweeter.influence];
@@ -370,7 +101,7 @@ exports.search = function(req,res,next) {
         });
       }
    });
-}; */
+};
 
 
 
@@ -381,7 +112,7 @@ exports.search = function(req,res,next) {
 
 
 
-var compareInfluence = function(a, b) {
+/*var compareInfluence = function(a, b) {
   if (a[1] < b[1]) {
     return -1;
   }
@@ -401,7 +132,7 @@ var compareStance = function(a, b) {
   }
   // a must be equal to b
   return 0;
-}
+} */
 
 
 
@@ -435,8 +166,8 @@ function addIndex(clusterCenters,callback) {
   })
 };
 
-/*function compareInfluence(a,b) {
-  if(a[1][1] < b[1][1]) {``
+function compareInfluence(a,b) {
+  if(a[1][1] < b[1][1]) {
     return -1;
   }
   else if(a[1][1] > b[1][1])
@@ -451,7 +182,7 @@ function compareStance(a,b) {
   else if(a[1][0] > b[1][0])
     return 1;
   else return 0;
-} */
+}
 
 function getData(clusters,sortedArray,callback) {
   var data= [];
@@ -479,8 +210,6 @@ function createLabel(data,callback) {
 exports.dashboard = function(req,res,next) {
   res.render('dashboard');
 }
-
-/*
 
 exports.search = function(req,res,next) {
   console.log(req.body.text);
@@ -547,8 +276,6 @@ exports.search = function(req,res,next) {
 
   });
 }
-
-*/
 exports.clusters = function(req,res,next) {
   db.query('SELECT * FROM Tweeters',function(err,rows,fields) {
     if(err) throw err;
@@ -558,6 +285,7 @@ exports.clusters = function(req,res,next) {
         else {
           console.log("Loop");
           addIndex(cluster["clusterCenters"],function(err,indexArray) {
+
 
           var sortedI = indexArray.sort(compareInfluence);
           var sortedS = sortedI.sort(compareStance);

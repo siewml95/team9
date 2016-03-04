@@ -234,12 +234,12 @@ h1, h2, p, a, span{
 		}
 
 			.tweets {
-				height: 275px;
+				height: 350px;
 			}
 
 		.right-container {}
 			.join-newsletter {
-				height: 330px;
+				height: 375px;
 			}
 				.join-newsletter .titular {
 					padding-top: 10px;
@@ -262,14 +262,16 @@ h1, h2, p, a, span{
 				padding-top: 15px;
 			}
 			form {
-                width:500px;
-                margin-left:65px;
-                margin-top:50px;
+                width:250px;
+              //  margin-left:65px;
+              //  margin-top:50px;
 }
 .search {
-                padding:8px 15px;
-                background:rgba(50, 50, 50, 0.2);
-                border:0px solid #dbdbdb;
+                //padding:8px 0px;
+                //background:rgba(50, 50, 50, 0.2);
+                //border:0px solid #dbdbdb;
+                margin-left: 23px;
+                margin-top: 10px;
 }
 
 				fieldset.date {
@@ -297,6 +299,8 @@ fieldset.date label {
   left: -200em;
 }
 
+
+
 fieldset.date select {
 margin: 0;
 padding: 0;
@@ -308,4 +312,16 @@ span.inst {
   font-size: 75%;
   color: blue;
   padding-left: .25em;
+}
+
+.blo {
+  display:block;
+  margin-left:23px;
+  margin-top:25px;
+}
+
+
+
+#title {
+  display:none;
 }
