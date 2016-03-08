@@ -148,6 +148,7 @@ h1, h2, p, a, span{
 	width: 950px;
 	height: 1725px;
 	margin: 6em auto;
+  position: relative;
 }
 	/*********************************************** HEADER ***********************************************/
 
@@ -163,7 +164,7 @@ h1, h2, p, a, span{
 		}
 		.left-container {}
 			.menu-box {
-				height: 175px;
+				height: 241px;
 			}
 				.menu-box .titular {
 					background: #C0C0C0;
@@ -235,6 +236,9 @@ h1, h2, p, a, span{
 
 			.tweets {
 				height: 350px;
+        padding-left: 10px;
+        padding-top: 10px;
+
 			}
 
 		.right-container {}
@@ -324,4 +328,95 @@ span.inst {
 
 #title {
   display:none;
+}
+
+span.inst {
+  font-size: 75%;
+  color: blue;
+  padding-left: .25em;
+}
+
+thead {
+  border-bottom:1px solid white;
+}
+table tbody, table thead
+{
+    display: block;
+    top-margin: 500px;
+    width:1100px;
+
+}
+
+table tbody
+{
+   overflow: auto;
+   height: 500px;
+   color: white;
+}
+
+.id {
+  width:170px;
+
+}
+
+.active{
+  display:block !important;
+}
+
+.tab {
+  display:none;
+  position:absolute;
+  top:600px;
+}
+th.username {
+  width:150px;
+  padding-left:20px;
+}
+
+th.text {
+  padding-left: 25px;
+}
+td.username {
+  width:150px;
+  padding-left:20px;
+}
+
+.text {
+  width:700px;
+}
+
+.created {
+  width:150px;
+}
+td,th
+{
+    /*width: 72px; */
+    color: white;
+    text-align: left;
+    padding-top:8px;
+    padding-bottom:8px;
+}
+
+#tweeters thead , #tweeters tbody {
+  width:600px;
+}
+
+#tweeters .stance {
+  padding-left:40px;
+}
+
+#tweeters .influence {
+  padding-left:20px;
+}
+
+#tweeters td.stance {
+  padding-left:50px;
+}
+
+#tweeters td.influence {
+  padding-left:75px;
+}
+
+#tweeters td.username , #tweeters th.username {
+  padding-left:0px;
 }

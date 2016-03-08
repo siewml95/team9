@@ -1,4 +1,12 @@
 $(document).ready(function() {
+
+  $('.tabbtn').click(function() {
+        $('.tabbtn').removeClass('active');
+        $(this).addClass('active');
+        $('.tab').removeClass('active');
+        var id = '#tab-' + $(this).index();
+        $(id).addClass('active');
+    });
 $('#form').submit(function(event){
   event.preventDefault();
   $(this).ajaxSubmit({
@@ -9,6 +17,7 @@ $('#form').submit(function(event){
     success: function(response) {
       console.log(JSON.stringify(response));
       var tweets = response.tweets;
+      var tweeters = response.tweeters;
       console.log('tweets : ' + JSON.stringify(tweets))
       var ctx = document.getElementById("myChart").getContext("2d");
       var ctx2 = document.getElementById("myChartSentiment").getContext("2d");
@@ -41,9 +50,15 @@ $('#form').submit(function(event){
       },{scaleFontColor: "#666"});
 
        for(var i = 0; i < tweets.length; i++) {
-         var str = '<tr><th>' + tweets[i].id +'</th><th>' + tweets[i].user +'</th><th>' + tweets[i].text + '</th><th>' + tweets[i].createdAt + '</th></tr>';
+         var str = '<tr><td class="id">' + tweets[i].id +'</td><td class="username">' + tweets[i].user +'</td><td class="text">' + tweets[i].text + '</td><td class="created">' + tweets[i].createdAt + '</td></tr>';
          var ele = $(str);
          $('#tweets').append(ele);
+       }
+
+       for(var i = 0; i < tweeters.length; i++) {
+         var str = '<tr><td class="username">' + tweeters[i].user +'</td><td class="stance">' + tweeters[i].stance + '</td><td class="influence">' + tweeters[i].influence + '</td></tr>';
+         var ele = $(str);
+         $('#tweeters').append(ele);
        }
 
        $('#title').css('display','block')

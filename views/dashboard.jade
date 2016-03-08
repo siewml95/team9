@@ -13,21 +13,25 @@ html
         .menu-box.block
           h2.titular MENU BOX
           ul.menu-box-menu
-            li
+            li.tabbtn
               a.menu-box-tab(href='#12')
                 span.icon.entypo-cog.scnd-font-color
-                | Account Settings
-            li
+                | Users Cluster
+            li.tabbtn
               a.menu-box-tab(href='#13')
                 sapn.icon.entypo-chart-line.scnd-font-color
-                | Statistics
+                | Tweets Table
+            li.tabbtn
+              a.menu-box-tab(href='#13')
+                sapn.icon.entypo-chart-line.scnd-font-color
+                | Tweeters Table
         .donut-chart-block.block
           h2.titular Number of Mentions
           .donut-chart
             p#mentions.center-date
               | 0
               br
-          canvas#myChart(width='600', height='400')
+          //canvas#myChart(width='600', height='400')
       // MIDDLE-CONTAINER
       .middle-container.container
         .tweets.block
@@ -179,11 +183,29 @@ html
           input(type='button', value='Upload File').blo
           input(type='text', name="text",placeholder='Search...',required='').search
           input(type='submit', value='Search')
-      h2#title User Cluster VS Number of users
-      canvas#myChart(width='950', height='400')
-      table#tweets
-       tbody
-        
+      .clusters.tab#tab-0.active
+       h2#title User Cluster VS Number of users
+       canvas#myChart(width='950', height='400')
+      .tweetstable.tab#tab-1
+       h2#tweetstitle Tweets
+       table#tweets
+        thead
+         tr
+          th.id ID
+          th.username Username
+          th.text Tweet
+          th.created CreatedAt
+        tbody
+      .tweeterstable.tab#tab-2
+         h2#tweeterstitle Tweeters
+         table#tweeters
+          thead
+           tr
+            th.username Username
+            th.stance Stance
+            th.influence Influence
+          tbody
+
 
 
     script(src="javascripts/index.js")

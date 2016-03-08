@@ -85,6 +85,10 @@ function createTweeters(tweets,callback) {
  });
 };
 
+function findTopTweeters(tweeters,callback) {
+
+}
+
 function createClusters(tweeters,array,index2,callback) {
    //console.log('fuck4');
    var vectors =[];
@@ -105,13 +109,12 @@ function createClusters(tweeters,array,index2,callback) {
               array2[i] = cluster[i].centroid;
               if(array2[i] == 0)
                  i--;
-
               if(i == 9) {
-                console.log('unsorted ' + JSON.stringify(array2));
+                //console.log('unsorted ' + JSON.stringify(array2));
                 var sortedI = array2.sort(compareInfluence);
                 var sortedS = sortedI.sort(compareStance);
-                console.log('sorted' + JSON.stringify(sortedS));
-                callback(sortedS);
+              //  console.log('sorted' + JSON.stringify(sortedS));
+                callback(array2);
               }
            }
           }
@@ -128,7 +131,7 @@ function siArray(tweeters,callback) {
        callback(vectors);
      }
    });
-}
+};
 
 function getRidZero(array,callback) {
   var length = array.length;
@@ -143,6 +146,7 @@ function getRidZero(array,callback) {
         //  console.log('zerorid ' + JSON.stringify(array))
           callback(array);
           return ;
+
         }
       }
    }
@@ -153,7 +157,7 @@ function finalCluster(tweeters,centroid,callback) {
   var kk = new clusterfck.Kmeans(centroid);
    console.log('fuck')
   siArray(tweeters,function(vectors) {
-    var clusters = [0,0,0,0,0,0,0,0,0,0]
+    var clusters = [0,0,0,0,0,0,0,0,0,0];
 
     vectors.forEach(function(vector,index) {
       var clusterIndex = kk.classify(vector);
@@ -161,11 +165,14 @@ function finalCluster(tweeters,centroid,callback) {
       console.log('vector ' + JSON.stringify(vector))
       console.log('len ' + JSON.stringify(clusterIndex))
       if(index >= vectors.length - 1) {
+
        callback(clusters)
       }
     });
   });
 }
+
+
 
 function iterateClusters(tweeters,callback) {
   console.log('ficl')
@@ -213,12 +220,35 @@ function getAverageCentroid(length,array,callback) {
      array2[index][1] = array[index][1] / length ;
      if(index >= 9) {
        console.log('avearge ' + JSON.stringify(array2))
-
-       callback(array2);
+       arrange(array2,function(newarray) {
+         callback(newarray);
+       })
      }
    })
 
 }
+
+function arrange(array,callback) {
+  var neg = [];
+  var pos = [];
+  var newneg =[];
+  var newpos =[];
+  array.forEach(function(item,index) {
+    if(array[index][0] < 0)
+      pos.push(array[index]);
+    else
+      neg.push(array[index]);
+    if(index == 9) {
+      newneg = neg.sort(compareNeg);
+      newpos = pos.sort(comparePos);
+      var newarray = newneg.concat(newpos);
+      if(newarray != undefined)
+         callback(newarray.reverse())
+    }
+  })
+}
+
+
 
 //function finalClusters(tweeters,centroid,)
 
@@ -245,7 +275,7 @@ exports.test = function(req,res,next) {
  });
 }
 
-
+/*
 exports.search = function(req,res,next) {
   console.log(req.body.text);
   var query = 'SELECT * FROM Tweets WHERE text LIKE "% ' + req.body.text + ' %"';
@@ -296,6 +326,78 @@ exports.search = function(req,res,next) {
                         });
                       });
                     });
+                    }
+                  });
+
+                }
+              })
+           }
+         });
+
+       }
+     })
+
+  });
+} */
+
+
+exports.search = function(req,res,next) {
+  console.log(req.body.text);
+  var query = 'SELECT * FROM Tweets WHERE text LIKE "% ' + req.body.text + ' %"';
+  if(req.body.language != 'none') {
+    query += 'AND lang LIKE "' + req.body.language + '"';
+  }
+
+  var start_date = req.body.year_start + '-' + req.body.month_start + '-' + req.body.day_start;
+  if(start_date) {
+    query += 'AND createdAt >= "' + start_date + '"';
+  }
+  var end_date = req.body.year_end + '-' + req.body.month_end + '-' + req.body.day_end;
+  if(end_date) {
+    query += 'AND createdAt <= "' + end_date + '"';
+  }
+  console.log(start_date);
+
+  console.log(query);
+  db.query(query,function(err,rows,fields) {
+  //  console.log(JSON.stringify(rows));
+    console.log('len' + rows.length);
+    createTempTweets(rows,function(err,positiveno,negativeno,neutralno) {
+      if(err) throw err;
+       else  {
+         db.query('Select * FROM TweetsTemp',function(err,rows2,fields) {
+           if(err) throw err;
+           else {
+             createTweeters(rows2,function(err) {
+               if(err) throw err;
+                else  {
+                  console.log('testing1')
+                  db.query('SELECT * FROM Tweeters',function(err,rows3,fields) {
+                    if(err) throw err;
+                    else {
+                      console.log('testing2')
+                      iterateClusters(rows3,function(clusters) {
+                        console.log('testing3')
+
+                        getRidZero(clusters,function(clusters2) {
+                          getAverageCentroids(clusters2,function(result) {
+                            getAverageCentroid(clusters2.length,result,function(centroids) {
+                              console.log('avearge ' + JSON.stringify(centroids))
+                              finalCluster(rows3,centroids,function(final){
+                                   var sentiment = [positiveno,negativeno,neutralno];
+                                   //console.log('final data ' + JSON.stringify(final) )
+                                   //res.status(201);
+                                   res.json({"data" : final,  "mentions" : rows2.length, "tweets" : rows2, "tweeters" : rows3 , "sentiment" : sentiment});
+                              });
+
+                            });
+                        });
+                      });
+                      console.log('return 1');
+                      return ;
+                    });
+                    console.log('return 2');
+                    return ;
                     }
                   });
 
@@ -390,6 +492,74 @@ var compareInfluence = function(a, b) {
   }
   // a must be equal to b
   return 0;
+}
+
+var comparePos = function(a,b) {
+  console.log('comparePos a : ' + a + ' b : ' + b )
+
+  if(a[1] >= b[1] && a[0] >= b[0])
+    return 1;
+  else if(a[1] < b[1] && a[0] < b[0])
+    return -1;
+  else if(a[1] >= 0 && b[1] >= 0) {
+    if(a[0] >= 2 * b[0] && a[1] * 2 >= b[1])
+       return 1;
+    else {
+       return -1;
+    }
+  }
+  else if(a[1] < 0 && b[1] <0) {
+    if(a[0] >= 2 * b[0] && a[1]/b[1]  >= 2)
+       return 1;
+    else {
+      return -1;
+    }
+  }
+
+  else if(a[1] >= 0 && b[1] < 0) {
+      return 1;
+  }
+
+  else if(a[1] < 0 && b[1] >= 0) {
+      return -1;
+  }
+
+ return 0;
+}
+
+
+var compareNeg = function(a,b) {
+
+  console.log('compareNeg a : ' + a + ' b : ' + b )
+
+  if(a[1] <= b[1] && a[0] >= b[0])
+    return 1;
+  else if(a[1] > b[1] && a[0] < b[0])
+    return -1;
+  else if(a[1] >= 0 && b[1] >= 0) {
+    if(a[0] * 2 <= b[0] && a[1] <= b[1] * 2)
+       return -1;
+    else {
+       return 1;
+    }
+  }
+  else if(a[1] < 0 && b[1] <0) {
+    if(a[0] * 2 <= b[0] && a[1]/b[1]  <= 0.5)
+       return -1;
+    else {
+      return 1;
+    }
+  }
+
+  else if(a[1] >= 0 && b[1] < 0) {
+      return -1;
+  }
+
+  else if(a[1] < 0 && b[1] >= 0) {
+      return 1;
+  }
+
+ return 0;
 }
 
 var compareStance = function(a, b) {
