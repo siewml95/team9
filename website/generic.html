@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title></title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<script src="js/jquery.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-xlarge.css" />
+		</noscript>
+	</head>
+	<body>
+
+		<!-- Header -->
+			<header id="header">
+				<h1><strong><a href="index.html"></a></strong> </h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="generic.html">About</a></li>
+						<li><a href="elements.html">Plan</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Main -->
+			<section id="main" class="wrapper">
+				<div class="container">
+
+					<header class="major special">
+						<h2>Documentation</h2>
+						<p></p>
+						<a href="requirement.pdf" class="button special big">Requirements</a>
+					<a href="architecture.pdf" class="button special big">Architecture</a>
+					<a href="" class="button special big">DashBoard Design</a>
+					
+					</header>
+
+
+					<h2>Twitter API</h2>
+					<p>This an the official API developed by Twitter.Inc. It allow developer to extract tweets from Twitter Database.</p>
+					<p>We will connect Twitter API to node.js to retrieve the tweets. We can take user inputs and concatenate them into a query to be send through Twitter API. Tweets retrieved will then be stored in SAP HANA Database.</p>
+					<p>It's free to use. The only publicly available API that allow developer to extract tweets. Work well with Node.js.</p>
+					<a href="https://dev.twitter.com/rest/public" target="_blank">https://dev.twitter.com/rest/public</a>
+					<hr />
+
+					<h2>Node.js</h2>
+					<p>Node.js is an interface to the V8 JavaScript runtime. It is mainly used for developing server-side web application. It is written mainly in JavaScript.</p>
+					<p>We will connect Twitter API to node.js to retrieve the tweets. We will use node.js to render a html with neccessary input such a text input for user to insert keyword to be searched. We will also use the Node.Js to render the dashboard shown in the mock up dashboard.</p>
+					<p>One of our member has some experience in Node.js. Node.js is very simple to be used and deployed. There are twitter api module for node.js.</p>
+					<a href="https://nodejs.org/en/" target="_blank">https://node,js.org</a>
+					<hr />
+
+					<h2>SAP HANA</h2>
+					<p>SAP HANA is a computing platform that focuses on relational database. It combines database,application processing and integration services on a single platform.</p>
+					<p>Tweets Extracted from Twitter API will be inserted into the database handled by SAP HANA. Tweets in the database will be processed by SAP HANA's algorithms into sentiment data. SAP HANA will also process the data to find out which users are more influential. The processed tweets will be stored in another table which we connect to the dashboard.</p>
+					<p>It has a free trial version which is sufficient to be used. It is easy to use and there are complete tutorials on how to use this platform.</p>
+					<a href="http://go.sap.com/uk/index.html" target="_blank">go.sap.com</a>
+<hr />
+					<h2>Historical Data</h2>
+					<h4>Pros</h4>
+					<p>More more efficient (easier to collect a large amount of data as the data is already there compared to real time where you have to wait a certain period of time to sufficient collect data and so its less time consuming). More consistent (usually product cycle demands reports are in daily, weekly, monthly or annually and its not possible with real time). Extract more data than realtime data in the same amount of time.</p>
+					<h4>Cons</h4>
+					<p>Softwares that allow you to extract tweets are usually realtime (this will reduce the number of available software to use) [as long as we are able to find a good software that provides historic then we can use it]. We have to pay to get the historical tweets.</p>
+<hr />
+					<h2>RealTime Data</h2>
+					<h4>Pros</h4>
+					<p>Tweets are more up to date. Extracting realtime tweets is free.</p>
+					<h4>Cons</h4>
+					<p>Takes more time to get the tweets (this may be negligible depending on the circumstances). The speed depends on the popularity of the products (for more famous products the data will be more as more tweets will be created per second).</p>
+
+					<h4>We have decided to use Realtime Data.</h4>
+<hr />
+					<h2>Correlation</h2>
+					<p>Correlation is a statistical technique. Correlation describes the degree of association between two variables. In our project the two variables are:Demand for product x (in units) – loaded from a file, Social media sentiment (Tweets with a positive sentiment) and the extent to which the two factors are correlated is expressed as a coefficient. Of the two variables, one is a dependent variable (Sentiment) the other is independent (Demand).</p>
+
+					<h4>How we will establish the correlation</h4>
+					<p>The sentiment will come from our analysis of Twitter feeds:</p>
+					<p>First we identified the tweets using HashTags and Key Words. Extract tweets, Analyse the text for sentiment and count and rate the positive sentiment vs negative sentiment.</p>
+					<p>Secondly we import demand data from CSV file.</p>
+					<p>Then we can calculate a correlation and display it in a a graphical form.</p>
+
+
+
+				</div>
+			</section>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="container">
+					
+					<ul class="copyright">
+						<li>&copy; Diala & Siew</li>
+						
+					</ul>
+				</div>
+			</footer>
+
+	</body>
+</html>
