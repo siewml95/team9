@@ -8,9 +8,26 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var mysql = require('mysql');
+var multer = require('multer');
 
 
 var app = express();
+
+app.use(multer({
+  dest: './public/uploads/',
+  limits : { files : 1},
+  rename : function(fieldname,filename) {
+    return filename + Date.now();
+  },
+  onFileUploadStart : function(file) {
+    console.log(file.originalname + 'is starting....')
+  },
+  onFileUploadComplete : function(file) {
+    console.log(file.fieldname + ' uploaded to ' + file.path);
+    done=true;
+  }
+
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

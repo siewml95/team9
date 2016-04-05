@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var Multer = require('multer');
 var IndexController = require('../controllers/index');
 
 /* GET home page. */
@@ -12,6 +13,9 @@ router.get('/tweeters',IndexController.tweeters);
 router.get('/clusters',IndexController.clusters);
 router.get('/dashboard',IndexController.dashboard);
 router.post('/search',IndexController.search);
+router.post('/file',IndexController.file);
+
+//router.post('/upload', IndexController.file);
 
 
 

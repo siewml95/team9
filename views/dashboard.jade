@@ -1,213 +1,317 @@
-html
+doctype html
+html(lang='en')
   head
-   script(src="//code.jquery.com/jquery-1.11.2.min.js")
-   script(src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js")
-   script(src="javascripts/Chart.min.js")
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title Dashboard
+    link(rel='stylesheet', type='text/css', href='stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', type='text/css', href='stylesheets/font-awesome.min.css')
+    link(rel='stylesheet', type='text/css', href='stylesheets/local.css')
+    link(rel='stylesheet', type='text/css', href='stylesheets/graph.css')
+    script(src="//code.jquery.com/jquery-1.11.2.min.js")
+    script(src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js")
+    script(type='text/javascript', src='javascripts/bootstrap.min.js')
+    script(src="javascripts/Chart.min.js")
+    script(src="http://d3js.org/d3.v3.min.js")
+
 
   body
-    link(rel='stylesheet', type='text/css', href='stylesheets/style.css')
-    .main-container
-      h6 Twitter Analysis
-      // LEFT-CONTAINER
-      .left-container.container
-        .menu-box.block
-          h2.titular MENU BOX
-          ul.menu-box-menu
-            li.tabbtn
-              a.menu-box-tab(href='#12')
-                span.icon.entypo-cog.scnd-font-color
-                | Users Cluster
-            li.tabbtn
-              a.menu-box-tab(href='#13')
-                sapn.icon.entypo-chart-line.scnd-font-color
-                | Tweets Table
-            li.tabbtn
-              a.menu-box-tab(href='#13')
-                sapn.icon.entypo-chart-line.scnd-font-color
-                | Tweeters Table
-        .donut-chart-block.block
-          h2.titular Number of Mentions
-          .donut-chart
-            p#mentions.center-date
-              | 0
-              br
-          //canvas#myChart(width='600', height='400')
-      // MIDDLE-CONTAINER
-      .middle-container.container
-        .tweets.block
-          // TWEETS (MIDDLE-CONTAINER)
-          canvas#myChartSentiment(width='300', height='275')
-          h3 Sentiment Chart
+      #wrapper
+        nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+          .navbar-header
+            button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-ex1-collapse')
+              span.sr-only Toggle navigation
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+            a.navbar-brand(href='index.html') Home Page
+          .collapse.navbar-collapse.navbar-ex1-collapse
+            ul.nav.navbar-nav.side-nav
+              li.tabbtn
+                a(href='#')
+                  i.fa.fa-bullseye
+                  |  Dashboard
+              li.tabbtn
+                a(href='#')
+                  i.fa.fa-tasks
+                  |  Tables
+            ul.nav.navbar-nav.navbar-right.navbar-user
+              li.dropdown.messages-dropdown
+                a.dropdown-toggle(href='#', data-toggle='dropdown')
+              li.divider-vertical
 
-      // RIGHT-CONTAINER
-      .right-container.container
-       form(id="form",method="post",action="/search")
-        .join-newsletter.block
-          // JOIN NEWSLETTER (RIGHT-CONTAINER)
-          h2.titular Search
-          select(name="language").blo
-            option(value='none') Select a language...
-            option(value='en') English
-            option(value='fr') French
-            option(value='es') Spanish
-            option(value='ja') Japanese
-          select(name="country").blo
-            option(value='selectacountry') Select a country...
-            option(value='unitedkingdom') United Kingdom
-            option(value='unitedstates') United States
-            option(value='france') France
-            option(value='italy') Italy
-          fieldset.date
-            legend Start Date
-            label(for='month_start') Month
-            select#month_start(name='month_start')
-              option(value="01") January
-              option(value="02") February
-              option(value="03") March
-              option(value="04") April
-              option(value="05") May
-              option(value="06") June
-              option(value="07") July
-              option(value="08") August
-              option(value="09") September
-              option(value="10") October
-              option(value="11") November
-              option(value="12") December
-            |  -
-            label(for='day_start') Day
-            select#day_start(name='day_start')
-              option(value="01") 1
-              option(value="02") 2
-              option(value="03") 3
-              option(value="04") 4
-              option(value="05") 5
-              option(value="06") 6
-              option(value="07") 7
-              option(value="08") 8
-              option(value="09") 9
-              option(value="10") 10
-              option(value="11") 11
-              option(value="12") 12
-              option(value="13") 13
-              option(value="14") 14
-              option(value="15") 15
-              option(value="16") 16
-              option(value="17") 17
-              option(value="18") 18
-              option(value="19") 19
-              option(value="20") 20
-              option(value="21") 21
-              option(value="22") 22
-              option(value="23") 23
-              option(value="24") 24
-              option(value="25") 25
-              option(value="26") 26
-              option(value="27") 27
-              option(value="28") 28
-              option(value="29") 29
-              option(value="30") 30
-              option(value="31") 31
-            |  -
-            label(for='year_start') Year
-            select#year_start(name='year_start')
-              option(value="2009") 2009
-              option(value="2010") 2010
-              option(value="2011") 2011
-              option(value="2012") 2012
-              option(value="2013") 2013
-              option(value="2014") 2014
-              option(value="2015") 2015
-              option(value="2016") 2016
+        #page-wrapper
+         #tab-0.tab.active
+          .row
+            .col-lg-12
+              h1
+                | Dashboard
+                small Twitter Analytics
+          .panel.panel-primary
+            .panel-heading
+              h3.panel-title
+                i.fa.fa-rss
+                |  Input
+            .panel-body.feed
+              #page-wrapper
+               form(id="form",method="post", enctype="multipart/form-data", action="/file")
+                  .form-cor.more-right
+                    label Select Language
+                    select(name="language").form-control
+                      option(value='none') Select a language...
+                      option(value='en') English
+                      option(value='fr') French
+                      option(value='es') Spanish
+                      option(value='ja') Japanese
+                  .form-cor.more-right
+                      label Select Country
+                      select(name="country").form-control
+                        option(value='selectacountry') Select a country...
+                        option(value='unitedkingdom') United Kingdom
+                        option(value='unitedstates') United States
+                        option(value='france') France
+                        option(value='italy') Italy
+                  .form-cor
+                    label From
+                    select(name='month_start').form-control
+                      option(value="01") January
+                      option(value="02") February
+                      option(value="03") March
+                      option(value="04") April
+                      option(value="05") May
+                      option(value="06") June
+                      option(value="07") July
+                      option(value="08") August
+                      option(value="09") September
+                      option(value="10") October
+                      option(value="11") November
+                      option(value="12") December
+                  .form-cor.more-top
+                   select#day_start(name='day_start').form-control
+                    option(value="01") 1
+                    option(value="02") 2
+                    option(value="03") 3
+                    option(value="04") 4
+                    option(value="05") 5
+                    option(value="06") 6
+                    option(value="07") 7
+                    option(value="08") 8
+                    option(value="09") 9
+                    option(value="10") 10
+                    option(value="11") 11
+                    option(value="12") 12
+                    option(value="13") 13
+                    option(value="14") 14
+                    option(value="15") 15
+                    option(value="16") 16
+                    option(value="17") 17
+                    option(value="18") 18
+                    option(value="19") 19
+                    option(value="20") 20
+                    option(value="21") 21
+                    option(value="22") 22
+                    option(value="23") 23
+                    option(value="24") 24
+                    option(value="25") 25
+                    option(value="26") 26
+                    option(value="27") 27
+                    option(value="28") 28
+                    option(value="29") 29
+                    option(value="30") 30
+                    option(value="31") 31
+                  .form-cor.more-right.more-top
+                   select#year_start(name='year_start').form-control
+                    option(value="2009") 2009
+                    option(value="2010") 2010
+                    option(value="2011") 2011
+                    option(value="2012") 2012
+                    option(value="2013") 2013
+                    option(value="2014") 2014
+                    option(value="2015") 2015
+                    option(value="2016") 2016
+                  .form-cor
+                    label To
+                    select#month_end(name='month_end').form-control
+                      option(value="01") January
+                      option(value="02") February
+                      option(value="03") March
+                      option(value="04") April
+                      option(value="05") May
+                      option(value="06") June
+                      option(value="07") July
+                      option(value="08") August
+                      option(value="09") September
+                      option(value="10") October
+                      option(value="11") November
+                      option(value="12") December
+                  .form-cor.more-top
+                    select#day_end(name='day_end').form-control
+                      option(value="01") 1
+                      option(value="02") 2
+                      option(value="03") 3
+                      option(value="04") 4
+                      option(value="05") 5
+                      option(value="06") 6
+                      option(value="07") 7
+                      option(value="08") 8
+                      option(value="09") 9
+                      option(value="10") 10
+                      option(value="11") 11
+                      option(value="12") 12
+                      option(value="13") 13
+                      option(value="14") 14
+                      option(value="15") 15
+                      option(value="16") 16
+                      option(value="17") 17
+                      option(value="18") 18
+                      option(value="19") 19
+                      option(value="20") 20
+                      option(value="21") 21
+                      option(value="22") 22
+                      option(value="23") 23
+                      option(value="24") 24
+                      option(value="25") 25
+                      option(value="26") 26
+                      option(value="27") 27
+                      option(value="28") 28
+                      option(value="29") 29
+                      option(value="30") 30
+                      option(value="31") 31
+                  .form-cor.more-top
+                   select#year_end(name='year_end').form-control
+                      option(value="2009") 2009
+                      option(value="2010") 2010
+                      option(value="2011") 2011
+                      option(value="2012") 2012
+                      option(value="2013") 2013
+                      option(value="2014") 2014
+                      option(value="2015") 2015
+                      option(value="2016") 2016
+                  .form-cor.more-top
+                    input.more-top(type='file' , name="csv")
+                    input.form-control.input-lg(name="text",title='Confidential signup.', placeholder='Keyword...', type='text')
+                    input.btn.btn-lg.btn-primary(type='submit', value='Search')
+          .row
+            .col-md-6
+              .panel.panel-primary
+                .panel-heading
+                  h3.panel-title
+                    i.fa.fa-bar-chart-o
+                    |  Demand vs Time
+                .panel-body
+                  canvas#demandvstime(height="350px" , width="450px")
+            .col-md-6
+              .panel.panel-primary
+                .panel-heading
+                  h3.panel-title
+                    i.fa.fa-bar-chart-o
+                    |  Sentiment vs Time
+                .panel-body
+                  canvas#sentimentvstime(height="350px" , width="450px")
+          .row
+            .col-md-6
+              .panel.panel-primary
+                .panel-heading
+                  h3.panel-title
+                    i.fa.fa-bar-chart-o
+                    |  Tweeters Cluster vs Number of Tweeters
+                .panel-body
+                  canvas#tweeterscluster(height="350px" , width="450px")
 
-          fieldset.date
-            legend End Date
-            label(for='month_end') Month
-            select#month_end(name='month_end')
-              option(value="01") January
-              option(value="02") February
-              option(value="03") March
-              option(value="04") April
-              option(value="05") May
-              option(value="06") June
-              option(value="07") July
-              option(value="08") August
-              option(value="09") September
-              option(value="10") October
-              option(value="11") November
-              option(value="12") December
-            |  -
-            label(for='day_end') Day
-            select#day_end(name='day_end')
-                option(value="01") 1
-                option(value="02") 2
-                option(value="03") 3
-                option(value="04") 4
-                option(value="05") 5
-                option(value="06") 6
-                option(value="07") 7
-                option(value="08") 8
-                option(value="09") 9
-                option(value="10") 10
-                option(value="11") 11
-                option(value="12") 12
-                option(value="13") 13
-                option(value="14") 14
-                option(value="15") 15
-                option(value="16") 16
-                option(value="17") 17
-                option(value="18") 18
-                option(value="19") 19
-                option(value="20") 20
-                option(value="21") 21
-                option(value="22") 22
-                option(value="23") 23
-                option(value="24") 24
-                option(value="25") 25
-                option(value="26") 26
-                option(value="27") 27
-                option(value="28") 28
-                option(value="29") 29
-                option(value="30") 30
-                option(value="31") 31
-            |  -
-            label(for='year_end') Year
-            select#year_end(name='year_end')
-                option(value="2009") 2009
-                option(value="2010") 2010
-                option(value="2011") 2011
-                option(value="2012") 2012
-                option(value="2013") 2013
-                option(value="2014") 2014
-                option(value="2015") 2015
-                option(value="2016") 2016
-          input(type='button', value='Upload File').blo
-          input(type='text', name="text",placeholder='Search...',required='').search
-          input(type='submit', value='Search')
-      .clusters.tab#tab-0.active
-       h2#title User Cluster VS Number of users
-       canvas#myChart(width='950', height='400')
-      .tweetstable.tab#tab-1
-       h2#tweetstitle Tweets
-       table#tweets
-        thead
-         tr
-          th.id ID
-          th.username Username
-          th.text Tweet
-          th.created CreatedAt
-        tbody
-      .tweeterstable.tab#tab-2
-         h2#tweeterstitle Tweeters
-         table#tweeters
-          thead
-           tr
-            th.username Username
-            th.stance Stance
-            th.influence Influence
-          tbody
+            .col-md-6
+              .panel.panel-primary
+                .panel-heading
+                  h3.panel-title
+                    i.fa.fa-bar-chart-o
+                    |  Correlation Graph
+                .panel-body
+                  svg(id="visualisation",width="500",height="500")
+          .row
+           .col-md-6
+            .panel.panel-primary
+              .panel-heading
+                h3.panel-title
+                  i.fa.fa-bar-chart-o
+                  |  Positive, negative or neutral chart
+              .panel-body
+                canvas#pie(height="150px" , width="300px")
 
 
 
-    script(src="javascripts/index.js")
-    // end right-container
-    // end main-container
+           .col-lg-4
+                   .panel.panel-primary
+                     .panel-heading
+                       h3.panel-title
+                         i.fa.fa-magnet
+                         |  Number Of Mentions
+                     .panel-body#percentcorrelated
+                       ul.server-stats
+                         li
+                           .key.pull-right
+                           .stat
+                             .info
+                             .progress.progress-small
+                               .progress-bar.progress-bar-danger
+
+           .col-lg-4
+              .panel.panel-primary
+                .panel-heading
+                  h3.panel-title
+                    i.fa.fa-magnet
+                    |  Number Of Mentions
+                .panel-body
+                  ul.server-stats
+                    li
+                      .key.pull-right
+                      .stat
+                        .info 65
+                        .progress.progress-small
+                          .progress-bar.progress-bar-danger(style='width: 70%;')
+
+
+      #wrapper
+        #tab-1.tab
+                       #page-wrapper
+
+                         .row
+                           .col-sm-9
+                             .row
+                               .col-xs-12
+                                 h2
+                                 .row
+                                   .col-lg-12
+                                     .panel.panel-primary
+                                       .panel-heading
+                                         h3.panel-title
+                                           i.fa.fa-bar-chart-o
+                                           |  Tweets
+                                       .panel-body.table-scroll
+                                         table#tweets.table.table-striped
+                                          tr
+                                           th Tweet ID
+                                           th Username
+                                           th Text
+                                           th createdAt
+                             hr
+                             .row
+                               .col-xs-12
+                                 h2
+                                 .row
+                                   .col-lg-12
+                                     .panel.panel-primary
+                                       .panel-heading
+                                         h3.panel-title
+                                           i.fa.fa-bar-chart-o
+                                           |  Tweeters
+                                       .panel-body.table-scroll
+                                         table#tweeters.table.table-striped
+                                          tr
+                                           th Username
+                                           th Stance
+                                           th Influence
+                             hr
+                             .row
+                               .col-xs-12
+                                 h2
+
+      script(src="javascripts/index.js")

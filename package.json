@@ -23,7 +23,11 @@
   "k-means" : "1.0.0",
   "kmeans-js" : "0.1.2",
   "clusterfck" : "0.6.0",
-  "underscore" : "1.4.2"
+  "underscore" : "1.4.2",
+  "csv" : "0.4.6",
+  "multer" : "~0.1.6",
+  "csv-parse": "1.0.2",
+  "moment" : "2.12.0"
 
   }
 }
