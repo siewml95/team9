@@ -382,9 +382,6 @@ function convertRecords(start,end,sortedrecords,callback) {
     end_init = end_date.format('DD/MM/YYYY').split('-');
   }
 
-
-
-
   var diff = parseInt(end_date.diff(start_date,'days'),10) + 1;
   var labels = [];
   var quantities = [];
@@ -773,9 +770,6 @@ function getData(clusters,sortedArray,callback) {
 	 });
 
 };
-
-
-
 
 
 
