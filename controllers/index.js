@@ -117,7 +117,7 @@ function createClusters(tweeters,array,index2,callback) {
                 //console.log('unsorted ' + JSON.stringify(array2));
                 var sortedI = array2.sort(compareInfluence);
                 var sortedS = sortedI.sort(compareStance);
-              //  console.log('sorted' + JSON.stringify(sortedS));
+                console.log('sorted' + JSON.stringify(sortedS));
                 callback(array2);
               }
            }
@@ -180,16 +180,15 @@ function finalCluster(tweeters,centroid,callback) {
 
 function iterateClusters(tweeters,callback) {
   console.log('ficl')
+
    var clusters = new Array(100);
    for(var i = 0;i <100;i++)
       clusters[i] = 0;
    clusters.forEach(function(cluster,index) {
-       //console.log('fuck3');
        createClusters(tweeters,clusters,index,function(result) {
+           console.log('check ')
            clusters[index] = result;
-      //     console.log('Done ' + result);
            if(index >= clusters.length - 1) {
-          //   console.log('finish' + JSON.stringify(clusters));
              callback(clusters);
            }
        });
@@ -290,8 +289,12 @@ function parseCSVFile(sourceFilePath, columns, onNewRecord, handleError, callbac
         var record;
         while (record = parser.read()) {
             linesRead++;
+            if(record.SKU != "") {
+            console.log("Record " + JSON.stringify(record));
             array.push(record);
             onNewRecord(record);
+          }
+
         }
     });
 
@@ -463,10 +466,15 @@ exports.file = function(req,res,next) {
 
 function search(start_date,end_date,language,text,labels,quantity,callback) {
   var sent = false;
-  var start_d = start_date[2] + '-' + start_date[1] + '-' + start_date[0];
-  var end_d = end_date[2] + '-' + end_date[1] + '-' + end_date[0];
+
   var correct_s = start_date[0] + '/' + start_date[1] + '/' + start_date[2];
   var correct_e = end_date[0] + '/' + end_date[1] + '/' + end_date[2];
+  var correct_eplusone = moment(correct_e,'DD/MM/YYYY').add('days', 1);
+  var start_d = start_date[2] + '-' + start_date[1] + '-' + start_date[0];
+  var end_d = correct_eplusone.format('YYYY') +'-' + correct_eplusone.format('MM') + '-' + correct_eplusone.format('DD');
+  console.log('correct ' + end_d )
+
+
 
   var query = 'SELECT * FROM Tweets WHERE text LIKE "% ' + text + ' %"';
   if(language != 'none' ) {
@@ -545,32 +553,10 @@ function createCorrelationObject(demandarray,sentimentarray,callback) {
   }
   correlationobject = correlationobject.sort(compareDemands);
   callback(correlationobject);
+
 }
 
-function getRidOfRepeatDemands(correlationobject,callback) {
-  var len = correlationobject.length;
-  var toberemoved = [];
-  var correctdemand= [];
-  var previous = null;
-  var sum =0;
-  for(var i=0;i<len; i++) {
-    if(correlationobject[i].demands == correlationobject[i+1].demands) {
-      sum = correlationobject[i].sentiments + correlationobject[i+1].sentiments;
-    }
-    else {
-      if(previous != null && previous == correlationobject[i].demands) {
-        correctdemand.push({'sentiments' : sum, 'demands' : previous});
-      }
-      else {
-        correctdemand.push({'sentiments' : correlationobject[i].sentiments , 'demands' : correlationobject[i].demands });
-      }
-      sum = 0;
 
-    }
-    previous = correlationobject[i].demands;
-  }
-  callback(correctdemand);
-}
 
 
 function compareDemands(a,b) {

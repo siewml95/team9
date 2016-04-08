@@ -9,7 +9,41 @@ $(document).ready(function() {
   var datademands = null;
   var datacorrelationobjects = null;
 
+  function getRidOfRepeatDemands(correlationobject) {
+    var len = correlationobject.length;
+    var toberemoved = [];
+    var correctdemand= [];
+    var previous = null;
+    var sum =0;
+    var isLast = false;
+    for(var i=0;i<len; i++) {
+      try {
+        var check = correlationobject[i+1].demands;
+      }catch(err) {
+        isLast = true;
+      }
+      if(!isLast && correlationobject[i].demands == correlationobject[i+1].demands) {
+        sum = correlationobject[i].sentiments + correlationobject[i+1].sentiments;
+      }
+      else {
+        if(previous != null && previous == correlationobject[i].demands) {
+          correctdemand.push({'sentiments' : sum, 'demands' : previous});
+          console.log('last same')
+        }
+        else {
+          correctdemand.push({'sentiments' : correlationobject[i].sentiments , 'demands' : correlationobject[i].demands });
+        }
+        sum = 0;
+
+      }
+      previous = correlationobject[i].demands;
+    }
+    return correctdemand;
+  }
+
   function checkpointscorrelated(correlationobject) {
+    correlationobject = getRidOfRepeatDemands(correlationobject);
+    console.log('check ' + JSON.stringify(correlationobject));
     var truesum = 0;
     var falsesum = 0;
     for(var i = 0;i<correlationobject.length - 1;i++) {
@@ -42,9 +76,14 @@ $(document).ready(function() {
 
 $('#form').submit(function(event){
   event.preventDefault();
+  $('.glyphicon.spin').removeClass('display-none');
+
   $(this).ajaxSubmit({
+    timeout: 18000,
     error: function(xhr) {
     console.log(xhr);
+    $('.glyphicon.spin').addClass('display-none');
+
 
     },
     success: function(response) {
@@ -79,6 +118,8 @@ $('#form').submit(function(event){
            }
         ]
       },{scaleFontColor: "#000"});
+      $('.glyphicon.spin.tweeterscluster').addClass('display-none');
+
 
 
 
@@ -97,6 +138,8 @@ $('#form').submit(function(event){
         }
     ]
 });
+$('.glyphicon.spin.demandvstime').addClass('display-none');
+
 
 var lineChart2 = new Chart(ctx4).Line({
 labels: datalabels,
@@ -113,6 +156,8 @@ datasets: [
   }
 ]
 });
+$('.glyphicon.spin.sentimentsvstime').addClass('display-none');
+
 
 var data = [
     {
@@ -221,9 +266,14 @@ var myDoughnutChart = new Chart(ctx2).Pie(data);
        $('#title').css('display','block')
 
        $('#mentions').text(tweets.length);
+       $('.glyphicon.spin').addClass('display-none');
 
 
     }
+
+
   });
+
+
 });
 });

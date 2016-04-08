@@ -16,7 +16,7 @@ html(lang='en')
 
 
   body
-      #wrapper
+     #wrapper.waiting
         nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
           .navbar-header
             button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-ex1-collapse')
@@ -47,13 +47,13 @@ html(lang='en')
               h1
                 | Dashboard
                 small Twitter Analytics
-          .panel.panel-primary
+          .panel.panel-primary.waiting
             .panel-heading
               h3.panel-title
                 i.fa.fa-rss
                 |  Input
             .panel-body.feed
-              #page-wrapper
+              #page-wrapper.waiting
                form(id="form",method="post", enctype="multipart/form-data", action="/file")
                   .form-cor.more-right
                     label Select Language
@@ -191,44 +191,49 @@ html(lang='en')
                     input.more-top(type='file' , name="csv")
                     input.form-control.input-lg(name="text",title='Confidential signup.', placeholder='Keyword...', type='text')
                     input.btn.btn-lg.btn-primary(type='submit', value='Search')
+                    span.glyphicon.glyphicon-refresh.spin.display-none
           .row
             .col-md-6
-              .panel.panel-primary
+              .panel.panel-primary.waiting
                 .panel-heading
                   h3.panel-title
                     i.fa.fa-bar-chart-o
                     |  Demand vs Time
                 .panel-body
+                  span.glyphicon.glyphicon-refresh.spin.bigger.display-none.demandvstime
                   canvas#demandvstime(height="350px" , width="450px")
             .col-md-6
-              .panel.panel-primary
+              .panel.panel-primary.waiting
                 .panel-heading
                   h3.panel-title
                     i.fa.fa-bar-chart-o
                     |  Sentiment vs Time
                 .panel-body
+                  span.glyphicon.glyphicon-refresh.spin.bigger.display-none.sentimentvstime
                   canvas#sentimentvstime(height="350px" , width="450px")
           .row
             .col-md-6
-              .panel.panel-primary
+              .panel.panel-primary.waiting
                 .panel-heading
                   h3.panel-title
                     i.fa.fa-bar-chart-o
                     |  Tweeters Cluster vs Number of Tweeters
                 .panel-body
+                  span.glyphicon.glyphicon-refresh.spin.bigger.display-none.tweeterscluster
                   canvas#tweeterscluster(height="350px" , width="450px")
 
             .col-md-6
-              .panel.panel-primary
+              .panel.panel-primary.waiting
                 .panel-heading
                   h3.panel-title
                     i.fa.fa-bar-chart-o
                     |  Correlation Graph
                 .panel-body
+                  span.glyphicon.glyphicon-refresh.spin.bigger.display-none.visualisation
                   svg(id="visualisation",width="500",height="500")
           .row
            .col-md-6
-            .panel.panel-primary
+            .panel.panel-primary.waiting
               .panel-heading
                 h3.panel-title
                   i.fa.fa-bar-chart-o
@@ -239,11 +244,11 @@ html(lang='en')
 
 
            .col-lg-4
-                   .panel.panel-primary
+                   .panel.panel-primary.waiting
                      .panel-heading
                        h3.panel-title
                          i.fa.fa-magnet
-                         |  Number Of Mentions
+                         |  Precentage of Correlations
                      .panel-body#percentcorrelated
                        ul.server-stats
                          li
@@ -254,7 +259,7 @@ html(lang='en')
                                .progress-bar.progress-bar-danger
 
            .col-lg-4
-              .panel.panel-primary
+              .panel.panel-primary.waiting
                 .panel-heading
                   h3.panel-title
                     i.fa.fa-magnet
@@ -280,7 +285,7 @@ html(lang='en')
                                  h2
                                  .row
                                    .col-lg-12
-                                     .panel.panel-primary
+                                     .panel.panel-primary.waiting
                                        .panel-heading
                                          h3.panel-title
                                            i.fa.fa-bar-chart-o
@@ -298,7 +303,7 @@ html(lang='en')
                                  h2
                                  .row
                                    .col-lg-12
-                                     .panel.panel-primary
+                                     .panel.panel-primary.waiting
                                        .panel-heading
                                          h3.panel-title
                                            i.fa.fa-bar-chart-o
