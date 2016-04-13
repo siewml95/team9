@@ -8,6 +8,7 @@ $(document).ready(function() {
   var datalabels = null;
   var datademands = null;
   var datacorrelationobjects = null;
+  var numberofmentionsforeachdays = null;
 
   function getRidOfRepeatDemands(correlationobject) {
     var len = correlationobject.length;
@@ -79,7 +80,6 @@ $('#form').submit(function(event){
   $('.glyphicon.spin').removeClass('display-none');
 
   $(this).ajaxSubmit({
-    timeout: 18000,
     error: function(xhr) {
     console.log(xhr);
     $('.glyphicon.spin').addClass('display-none');
@@ -95,15 +95,17 @@ $('#form').submit(function(event){
       datalabels = response.datalabels;
       datademands = response.dataquantity;
       datacorrelationobjects = response.datacorrelationobjects;
-
+      numberofmentionsforeachdays = response.mentions;
 
       console.log('tweets : ' + JSON.stringify(tweets))
       console.log('datacorrelationobjects : ' + JSON.stringify(datacorrelationobjects))
+      console.log('datacorrelationobjects : ' + JSON.stringify(numberofmentionsforeachdays))
 
       var ctx = document.getElementById("tweeterscluster").getContext("2d");
       var ctx2 = document.getElementById("pie").getContext("2d");
       var ctx3 = document.getElementById("demandvstime").getContext("2d");
       var ctx4 = document.getElementById("sentimentvstime").getContext("2d");
+      var ctx5 = document.getElementById("mentionsvstime").getContext("2d");
 
       var myBarChart = new Chart(ctx).Bar({
         labels: ['Cluster 0','Cluster 1','Cluster 2','Cluster 3','Cluster 4','Cluster 5','Cluster 6','Cluster 7','Cluster 8', 'Cluster 9'],
@@ -137,6 +139,22 @@ $('#form').submit(function(event){
             data: csvdemands
         }
     ]
+});
+
+var lineChart5 = new Chart(ctx5).Line({
+labels: datalabels,
+datasets: [
+  {
+      label: "My First dataset",
+      fillColor: "rgba(220,220,220,0.2)",
+      strokeColor: "rgba(220,220,220,1)",
+      pointColor: "rgba(220,220,220,1)",
+      pointStrokeColor: "#fff",
+      pointHighlightFill: "#fff",
+      pointHighlightStroke: "rgba(220,220,220,1)",
+      data: numberofmentionsforeachdays
+  }
+]
 });
 $('.glyphicon.spin.demandvstime').addClass('display-none');
 

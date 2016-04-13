@@ -72,6 +72,48 @@ function createTempTweets(tweets,callback) {
  });
 };
 
+
+//check whether two dates are equal
+function getNumberOfMentionsEachDay(start_date,end_date,callback) {
+  var numberofmentionsforeachdays = [];
+  var correct_s = start_date[0] + '/' + start_date[1] + '/' + start_date[2];
+  var correct_e = end_date[0] + '/' + end_date[1] + '/' + end_date[2];
+  correct_s = moment(correct_s,'DD/MM/YYYY');
+  correct_e = moment(correct_e,'DD/MM/YYYY')
+  var numberofdays = correct_e.diff(correct_s,'days') + 1;
+  var correct_eplusone = correct_s.add('days', 1);
+  var start_d = start_date[2] + '-' + start_date[1] + '-' + start_date[0];
+  var end_d = correct_eplusone.format('YYYY') +'-' + correct_eplusone.format('MM') + '-' + correct_eplusone.format('DD');
+
+  for(var i= 0;i<numberofdays;i++) {
+    var query = 'SELECT COUNT(*) AS counts FROM TweetsTemp WHERE ';
+
+    if(start_date) {
+      query += 'createdAt >= "' + start_d + '"';
+    }
+    if(end_date) {
+      query += 'AND createdAt <= "' + end_d + '"';
+    }
+    start_d = end_d;
+    correct_eplusone = correct_eplusone.add('days', 1);
+    end_d = correct_eplusone.format('YYYY') +'-' + correct_eplusone.format('MM') + '-' + correct_eplusone.format('DD');
+    db.query(query,function(err,rows,fields) {
+      if(err) throw err;
+      else {
+       var len = 0;
+       try{
+          len = rows[0].counts;
+        }
+        catch(err) {
+          len = 0;
+        }
+        numberofmentionsforeachdays.push(len);
+      }
+    });
+  }
+  callback(numberofmentionsforeachdays);
+}
+
 function createTweeters(tweets,callback) {
   db.query("DROP TABLE IF EXISTS Tweeters", function(err) {
     if(err) console.log(err);
@@ -219,6 +261,7 @@ function getAverageCentroid(length,array,callback) {
    console.log('length ' + length);
    array2.forEach(function(item,index) {
     // console.log('check ' + JSON.stringify(array[index]) );
+
      array2[index][0] = array[index][0] / length ;
      array2[index][1] = array[index][1] / length ;
      if(index >= 9) {
@@ -228,7 +271,6 @@ function getAverageCentroid(length,array,callback) {
        })
      }
    })
-
 }
 
 function arrange(array,callback) {
@@ -249,29 +291,6 @@ function arrange(array,callback) {
          callback(newarray.reverse())
     }
   })
-}
-
-exports.test = function(req,res,next) {
-  db.query('SELECT * FROM Tweeters',function(err,rows,fields) {
-    console.log('len rows : ' + rows.length)
-    if(err) throw err;
-    else {
-      iterateClusters(rows,function(clusters) {
-        getRidZero(clusters,function(clusters2) {
-          getAverageCentroids(clusters2,function(result) {
-            getAverageCentroid(clusters2.length,result,function(centroids) {
-              console.log('avearge ' + JSON.stringify(centroids))
-              finalCluster(rows,centroids,function(final){
-                   console.log('final data ' + JSON.stringify(final) )
-                   res.render('home' , {"data" : final, "labels" : [0,1,2,3,4,5,6,7,8,9], "mentions" : rows.length, "tweeters" : rows });
-              });
-
-            });
-        });
-      });
-    });
-  }
- });
 }
 
 function parseCSVFile(sourceFilePath, columns, onNewRecord, handleError, callback){
@@ -449,11 +468,11 @@ exports.file = function(req,res,next) {
                console.log('check')
                console.log(labels);
                console.log(quantity);
-               search(calc_start,calc_end,req.body.language,req.body.text,labels,quantity,function(tweets,finalcluster,tweeters,sentiment,datalabels,dataquantity,datacorrelationobjects){
+               search(calc_start,calc_end,req.body.language,req.body.text,labels,quantity,function(numberofmentionsforeachdays,tweets,finalcluster,tweeters,sentiment,datalabels,dataquantity,datacorrelationobjects){
                  if(!sent) {
                  sent = true;
                  res.status(201);
-                 res.json({"data" : finalcluster,  "mentions" : tweets.length, "tweets" : tweets, "tweeters" : tweeters , "sentiment" : sentiment , "csvlabels" : labels , "csvquantity" : quantity,"datalabels" : datalabels, "dataquantity" : dataquantity , "datacorrelationobjects" : datacorrelationobjects});
+                 res.json({"data" : finalcluster,  "mentions" : numberofmentionsforeachdays, "tweets" : tweets, "tweeters" : tweeters , "sentiment" : sentiment , "csvlabels" : labels , "csvquantity" : quantity,"datalabels" : datalabels, "dataquantity" : dataquantity , "datacorrelationobjects" : datacorrelationobjects});
                  }
 
                })
@@ -494,6 +513,7 @@ function search(start_date,end_date,language,text,labels,quantity,callback) {
     createTempTweets(rows,function(err,positiveno,negativeno,neutralno) {
       if(err) throw err;
        else  {
+        getNumberOfMentionsEachDay(start_date,end_date,function(numberofmentionsforeachdays) {
          db.query('Select * FROM TweetsTemp',function(err,rows2,fields) {
            if(err) throw err;
            else {
@@ -518,7 +538,7 @@ function search(start_date,end_date,language,text,labels,quantity,callback) {
                                      createCorrelationObject(quantity,dataquantity,function(datacorrelationobjects) {
                                      if(!sent) {
                                        sent = true;
-                                     callback(rows2,final,rows3,sentiment,datalabels,dataquantity,datacorrelationobjects);
+                                     callback(numberofmentionsforeachdays,rows2,final,rows3,sentiment,datalabels,dataquantity,datacorrelationobjects);
                                    }
                                  });
 
@@ -537,6 +557,7 @@ function search(start_date,end_date,language,text,labels,quantity,callback) {
               return; })
            }
          return; });
+       });
 
        }
      return; })
@@ -556,9 +577,6 @@ function createCorrelationObject(demandarray,sentimentarray,callback) {
 
 }
 
-
-
-
 function compareDemands(a,b) {
   if(a.demands > b.demands) {
     return 1;
@@ -570,86 +588,6 @@ function compareDemands(a,b) {
     return 0;
   }
 }
-
-exports.search = function(req,res,next) {
-  var sent = false;
-  console.log(req.body.text);
-  var query = 'SELECT * FROM Tweets WHERE text LIKE "% ' + req.body.text + ' %"';
-  if(req.body.language != 'none') {
-    query += 'AND lang LIKE "' + req.body.language + '"';
-  }
-
-  var start_date = req.body.year_start + '-' + req.body.month_start + '-' + req.body.day_start;
-  if(start_date) {
-    query += 'AND createdAt >= "' + start_date + '"';
-  }
-  var end_date = req.body.year_end + '-' + req.body.month_end + '-' + req.body.day_end;
-  if(end_date) {
-    query += 'AND createdAt <= "' + end_date + '"';
-  }
-  console.log(start_date);
-
-  console.log(query);
-  db.query(query,function(err,rows,fields) {
-  //  console.log(JSON.stringify(rows));
-    console.log('len' + rows.length);
-    createTempTweets(rows,function(err,positiveno,negativeno,neutralno) {
-      if(err) throw err;
-       else  {
-         db.query('Select * FROM TweetsTemp',function(err,rows2,fields) {
-           if(err) throw err;
-           else {
-             createTweeters(rows2,function(err) {
-               if(err) throw err;
-                else  {
-                  console.log('testing1')
-                  db.query('SELECT * FROM Tweeters',function(err,rows3,fields) {
-                    if(err) throw err;
-                    else {
-                      console.log('testing2')
-                      iterateClusters(rows3,function(clusters) {
-                        console.log('testing3')
-
-                        getRidZero(clusters,function(clusters2) {
-                          getAverageCentroids(clusters2,function(result) {
-                            getAverageCentroid(clusters2.length,result,function(centroids) {
-                              console.log('avearge ' + JSON.stringify(centroids))
-                              finalCluster(rows3,centroids,function(final){
-                                   var sentiment = [positiveno,negativeno,neutralno];
-                                   //console.log('final data ' + JSON.stringify(final) )
-                                   if(!sent) {
-                                     res.status(201);
-                                //   res.writeHead(200, {'Content-Type': 'text/plain'});
-                                   console.log('sent');
-                                   res.send({"data" : final,  "mentions" : rows2.length, "tweets" : rows2, "tweeters" : rows3 , "sentiment" : sentiment});
-                                   sent = true;
-                                 }
-                                 else {
-                                   return;
-                                 }
-
-                              });
-
-                            return; });
-                        return ;});
-                      return ;});
-                    return ;});
-
-                    }
-                  return;});
-
-                }
-              return; })
-           }
-         return; });
-
-       }
-     return; })
-
-  return; });
-}
-
-
 
 var compareInfluence = function(a, b) {
   if (a[1] < b[1]) {
@@ -797,59 +735,3 @@ function createLabel(data,callback) {
 exports.dashboard = function(req,res,next) {
   res.render('dashboard');
 }
-
-
-exports.clusters = function(req,res,next) {
-  db.query('SELECT * FROM Tweeters',function(err,rows,fields) {
-    if(err) throw err;
-    else {
-      createClusters(rows,function(err,cluster) {
-        if(err) throw err;
-        else {
-          console.log("Loop");
-          addIndex(cluster["clusterCenters"],function(err,indexArray) {
-
-          var sortedI = indexArray.sort(compareInfluence);
-          var sortedS = sortedI.sort(compareStance);
-          console.log('sortedS' + JSON.stringify(sortedS));
-          getData(cluster.finalMatrix,sortedS,function(err,data) {
-             createLabel(data,function(err,labels) {
-               res.render('home',{data : data,labels : labels});
-             })
-
-          })
-        })
-
-       }
-      });
-    }
-  });
-};
-
-exports.tweeters = function(req,res,next) {
-  db.query('Select * FROM TweetsTemp',function(err,rows,fields) {
-    if(err) throw err;
-    else {
-      createTweeters(rows,function(err) {
-        if(err) throw err;
-         else  {
-           console.log("Tweeter Finished");
-         }
-       })
-    }
-  });
-};
-
-exports.temp = function(req,res,next) {
-  db.query('Select * FROM Tweets',function(err,rows,fields) {
-    if(err) throw err;
-    else {
-      createTempTweets(rows,function(err) {
-        if(err) throw err;
-         else  {
-           console.log("fininsehd");
-         }
-       })
-    }
-  });
-};

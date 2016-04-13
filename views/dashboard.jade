@@ -213,16 +213,25 @@ html(lang='en')
                   span.glyphicon.glyphicon-refresh.spin.bigger.display-none.sentimentvstime
                   canvas#sentimentvstime(height="350px" , width="450px")
           .row
-            .col-md-6
-              .panel.panel-primary.waiting
-                .panel-heading
-                  h3.panel-title
-                    i.fa.fa-bar-chart-o
-                    |  Tweeters Cluster vs Number of Tweeters
-                .panel-body
-                  span.glyphicon.glyphicon-refresh.spin.bigger.display-none.tweeterscluster
-                  canvas#tweeterscluster(height="350px" , width="450px")
-
+              .col-md-6
+                .panel.panel-primary.waiting
+                  .panel-heading
+                    h3.panel-title
+                      i.fa.fa-bar-chart-o
+                        | Mentions vs Time
+                  .panel-body
+                          span.glyphicon.glyphicon-refresh.spin.bigger.display-none.tweeterscluster
+                          canvas#mentionsvstime(height="350px" , width="450px")
+              .col-md-6
+                .panel.panel-primary.waiting
+                    .panel-heading
+                      h3.panel-title
+                        i.fa.fa-bar-chart-o
+                          |  Tweeters Cluster vs Number of Tweeters
+                    .panel-body
+                        span.glyphicon.glyphicon-refresh.spin.bigger.display-none.tweeterscluster
+                        canvas#tweeterscluster(height="350px" , width="450px")
+          .row
             .col-md-6
               .panel.panel-primary.waiting
                 .panel-heading
@@ -232,9 +241,9 @@ html(lang='en')
                 .panel-body
                   span.glyphicon.glyphicon-refresh.spin.bigger.display-none.visualisation
                   svg(id="visualisation",width="500",height="500")
-          .row
-           .col-md-6
-            .panel.panel-primary.waiting
+
+            .col-md-6
+             .panel.panel-primary.waiting
               .panel-heading
                 h3.panel-title
                   i.fa.fa-bar-chart-o
