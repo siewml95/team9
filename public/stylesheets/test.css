@@ -1,0 +1,18 @@
+#qunit-userAgent {
+  visibility: hidden;
+  height:0%;
+}
+
+#qunit-testrunner-toolbar{
+  visibility: hidden;
+  height:0%;
+
+}
+
+#qunit-header{
+  display:none;
+}
+
+.inactive {
+  display:none !important;
+}

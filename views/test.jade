@@ -1,0 +1,208 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title Test
+    link(rel='stylesheet', type='text/css', href='stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', type='text/css', href='stylesheets/font-awesome.min.css')
+    link(rel='stylesheet', type='text/css', href='stylesheets/local.css')
+    link(rel='stylesheet', type='text/css', href='stylesheets/graph.css')
+    link(rel='stylesheet', type='text/css', href='stylesheets/test.css')
+    script(type='text/javascript', src='javascripts/jquery-1.11.2.min.js')
+    script(type='text/javascript', src='javascripts/jquery.form.min.js')
+    script(type='text/javascript', src='javascripts/qunit-1.23.1.js')
+    script(type='text/javascript', src='javascripts/bootstrap.min.js')
+    script(src="javascripts/Chart.min.js")
+    script(type='text/javascript', src='javascripts/d3.v3.min.js')
+
+
+
+  body
+     #wrapper.waiting
+        nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+          .navbar-header
+            button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-ex1-collapse')
+              span.sr-only Toggle navigation
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+            a.navbar-brand(href='index.html') Home Page
+          .collapse.navbar-collapse.navbar-ex1-collapse
+            ul.nav.navbar-nav.side-nav
+              li.tabbtn
+                a(href='/')
+                  i.fa.fa-bullseye
+                  |  Dashboard
+              li.tabbtn
+                a(href='/')
+                  i.fa.fa-tasks
+                  |  Tables
+            ul.nav.navbar-nav.navbar-right.navbar-user
+              li.dropdown.messages-dropdown
+                a.dropdown-toggle(href='#', data-toggle='dropdown')
+              li.divider-vertical
+
+        #page-wrapper
+         #tab-0.tab.active
+          .row
+            .col-lg-12
+              h1
+                | Dashboard
+                small Twitter Analytics
+          .panel.panel-primary.waiting
+            .panel-heading
+              h3.panel-title
+                i.fa.fa-rss
+                |  Input
+            .panel-body.feed
+              #page-wrapper.waiting
+               form(id="form",method="post", enctype="multipart/form-data", action="/test")
+                  .form-cor.more-right
+                    label Select Language
+                    select(name="language").form-control
+                      option(value='none') Select a language...
+                      option(value='en') English
+                      option(value='fr') French
+                      option(value='es') Spanish
+                      option(value='ja') Japanese
+                  .form-cor.more-right
+                      label Select Country
+                      select(name="country").form-control
+                        option(value='selectacountry') Select a country...
+                        option(value='unitedkingdom') United Kingdom
+                        option(value='unitedstates') United States
+                        option(value='france') France
+                        option(value='italy') Italy
+                  .form-cor
+                    label From
+                    select(name='month_start').form-control
+                      option(value="01") January
+                      option(value="02") February
+                      option(value="03") March
+                      option(value="04") April
+                      option(value="05") May
+                      option(value="06") June
+                      option(value="07") July
+                      option(value="08") August
+                      option(value="09") September
+                      option(value="10") October
+                      option(value="11") November
+                      option(value="12") December
+                  .form-cor.more-top
+                   select#day_start(name='day_start').form-control
+                    option(value="01") 1
+                    option(value="02") 2
+                    option(value="03") 3
+                    option(value="04") 4
+                    option(value="05") 5
+                    option(value="06") 6
+                    option(value="07") 7
+                    option(value="08") 8
+                    option(value="09") 9
+                    option(value="10") 10
+                    option(value="11") 11
+                    option(value="12") 12
+                    option(value="13") 13
+                    option(value="14") 14
+                    option(value="15") 15
+                    option(value="16") 16
+                    option(value="17") 17
+                    option(value="18") 18
+                    option(value="19") 19
+                    option(value="20") 20
+                    option(value="21") 21
+                    option(value="22") 22
+                    option(value="23") 23
+                    option(value="24") 24
+                    option(value="25") 25
+                    option(value="26") 26
+                    option(value="27") 27
+                    option(value="28") 28
+                    option(value="29") 29
+                    option(value="30") 30
+                    option(value="31") 31
+                  .form-cor.more-right.more-top
+                   select#year_start(name='year_start').form-control
+                    option(value="2009") 2009
+                    option(value="2010") 2010
+                    option(value="2011") 2011
+                    option(value="2012") 2012
+                    option(value="2013") 2013
+                    option(value="2014") 2014
+                    option(value="2015") 2015
+                    option(value="2016") 2016
+                  .form-cor
+                    label To
+                    select#month_end(name='month_end').form-control
+                      option(value="01") January
+                      option(value="02") February
+                      option(value="03") March
+                      option(value="04") April
+                      option(value="05") May
+                      option(value="06") June
+                      option(value="07") July
+                      option(value="08") August
+                      option(value="09") September
+                      option(value="10") October
+                      option(value="11") November
+                      option(value="12") December
+                  .form-cor.more-top
+                    select#day_end(name='day_end').form-control
+                      option(value="01") 1
+                      option(value="02") 2
+                      option(value="03") 3
+                      option(value="04") 4
+                      option(value="05") 5
+                      option(value="06") 6
+                      option(value="07") 7
+                      option(value="08") 8
+                      option(value="09") 9
+                      option(value="10") 10
+                      option(value="11") 11
+                      option(value="12") 12
+                      option(value="13") 13
+                      option(value="14") 14
+                      option(value="15") 15
+                      option(value="16") 16
+                      option(value="17") 17
+                      option(value="18") 18
+                      option(value="19") 19
+                      option(value="20") 20
+                      option(value="21") 21
+                      option(value="22") 22
+                      option(value="23") 23
+                      option(value="24") 24
+                      option(value="25") 25
+                      option(value="26") 26
+                      option(value="27") 27
+                      option(value="28") 28
+                      option(value="29") 29
+                      option(value="30") 30
+                      option(value="31") 31
+                  .form-cor.more-top
+                   select#year_end(name='year_end').form-control
+                      option(value="2009") 2009
+                      option(value="2010") 2010
+                      option(value="2011") 2011
+                      option(value="2012") 2012
+                      option(value="2013") 2013
+                      option(value="2014") 2014
+                      option(value="2015") 2015
+                      option(value="2016") 2016
+
+                  .form-cor.more-top
+                    input.more-top(type='file' , name="csv")
+                    input.form-control.input-lg(name="text",title='Confidential signup.', placeholder='Keyword...', type='text')
+                    input.btn.btn-lg.btn-primary(type='submit', value='Search')
+                    span.glyphicon.glyphicon-refresh.spin.display-none
+                  .form-cor.more-top
+                      input(type="radio",name="test",value="UI")
+                      p UI
+                      input(type="radio",name="test",value="Graph")
+                      p Graph
+
+               #qunit
+
+
+      script(src="javascripts/test.js")

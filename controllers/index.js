@@ -86,7 +86,7 @@ function getNumberOfMentionsEachDay(start_date,end_date,callback) {
   var end_d = correct_eplusone.format('YYYY') +'-' + correct_eplusone.format('MM') + '-' + correct_eplusone.format('DD');
 
   for(var i= 0;i<numberofdays;i++) {
-    var query = 'SELECT COUNT(*) AS counts FROM TweetsTemp WHERE ';
+    var query = 'SELECT COUNT(*) AS counts FROM TweetsTest WHERE ';
 
     if(start_date) {
       query += 'createdAt >= "' + start_d + '"';
@@ -732,6 +732,104 @@ function createLabel(data,callback) {
   });
 };
 
+exports.QTest = function(req,res,next) {
+  console.log('hello' + req.body.test)
+  if(req.body.test == "UI") {
+    res.status(201);
+    res.json({"month_start" : req.body.month_start , "year_start" : req.body.year_start , "day_start" : req.body.day_start , "month_end" : req.body.month_end, "year_end" : req.body.year_end, "day_end" : req.body.day_end , "language" : req.body.language , "country" : req.body.country , "testUI" : true});;
+  }
+  else {
+    console.log("qtest")
+    GraphTest(req,res);
+  }
+};
+
+
+
+
+function GraphTest(req,res) {
+      var sent = false;
+
+      var filePath = 'test/test1.csv';
+      console.log(filePath);
+      function onNewRecord(record){
+          console.log(record)
+      }
+
+      function onError(error){
+          console.log(error)
+      }
+
+      function done(linesRead){
+          res.send(200, linesRead)
+      }
+
+      var start_date = null;
+      var end_date = null;
+
+
+
+      var columns = true;
+      parseCSVFile(filePath, columns, onNewRecord, onError,  function(demands) {
+         console.log('demand ' + JSON.stringify(demands));
+         arrangeRecords(demands,function(sorted) {
+           console.log('please')
+           convertRecords(start_date,end_date,sorted,function(calc_start,calc_end,labels,quantity) {
+               console.log('check')
+               console.log(labels);
+               console.log(quantity);
+               testSearch(calc_start,calc_end,labels,quantity,function(numberofmentionsforeachdays,datalabels,dataquantity,datacorrelationobjects){
+                 if(!sent) {
+                 sent = true;
+                 res.status(201);
+                 console.log('correlationobject' + JSON.stringify(datacorrelationobjects))
+                 res.json({"mentions" : numberofmentionsforeachdays , "csvlabels" : labels , "csvquantity" : quantity,"datalabels" : datalabels, "dataquantity" : dataquantity , "datacorrelationobjects" : datacorrelationobjects});
+                 }
+
+               })
+           });
+         })
+      });
+
+
+}
+
+function testSearch(start_date,end_date,labels,quantity,callback) {
+  var correct_s = start_date[0] + '/' + start_date[1] + '/' + start_date[2];
+  var correct_e = end_date[0] + '/' + end_date[1] + '/' + end_date[2];
+  var correct_eplusone = moment(correct_e,'DD/MM/YYYY').add('days', 1);
+  var start_d = start_date[2] + '-' + start_date[1] + '-' + start_date[0];
+  var end_d = correct_eplusone.format('YYYY') +'-' + correct_eplusone.format('MM') + '-' + correct_eplusone.format('DD');
+  console.log('correct ' + end_d )
+  var query ='SELECT * FROM TweetsTest WHERE ';
+
+  if(start_date) {
+    query += 'createdAt >= "' + start_d + '"';
+  }
+  if(end_date) {
+    query += ' AND createdAt <= "' + end_d + '"';
+  }
+
+  //  console.log(JSON.stringify(rows));
+        getNumberOfMentionsEachDay(start_date,end_date,function(numberofmentionsforeachdays) {
+         db.query(query,function(err,rows2,fields) {
+           if(err) throw err;
+           else {
+             convertData(rows2,correct_s,correct_e,function(datalabels,dataquantity){
+               createCorrelationObject(quantity,dataquantity,function(datacorrelationobjects) {
+                 console.log('data corre ' + JSON.stringify(datacorrelationobjects));
+                 callback(numberofmentionsforeachdays,datalabels,dataquantity,datacorrelationobjects);
+              });
+             });
+           }
+         });
+       });
+  };
+
+
 exports.dashboard = function(req,res,next) {
   res.render('dashboard');
+}
+exports.test = function(req,res,next) {
+  res.render('test');
 }
