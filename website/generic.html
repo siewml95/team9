@@ -37,55 +37,83 @@
 					<header class="major special">
 						<h2>Documentation</h2>
 						<p></p>
-						<a href="requirement.pdf" class="button special big">Requirements</a>
-					<a href="architecture.pdf" class="button special big">Architecture</a>
-					<a href="" class="button special big">DashBoard Design</a>
+						<a href="requirements.html" class="button special big">Requirements</a>
+					<a href="arch.jpg" class="button special big">Architecture</a>
+					<a href="dashboards.pdf" class="button special big">DashBoard Design</a>
 					
 					</header>
 
 
+					<h2>Node.JS</h2>
+					<img src="nodejs.jpg" style="width:150px;height:55px;">
+					<p>Node.js is an interface to the V8 JavaScript runtime. It is mainly used for developing server-side web application. It is written mainly in JavaScript.</p>
+					<p>How do we plan to use Node.js</p>
+					<p>We are planning to use the MVC structure for our project. Models stand for the schema for the database, View stand for the frontend design and Controller stand for the backend design. Below show how the Model, Controller and View are connected.</p>
+					<img src="pic.jpg" style="width:270px;height:175px;">
+					<p>So, our model would be the schema for the MySQL tables. Controller, would be contain mostly the backend code where we request for data from the MySQL. Finally, View , would be containing the html code on which makes up the frontend.
+					</p>
+					<p>Why we decided to use Node.js</p>
+					<p>The member who is in charge of the backend has experience in using Node.js. Besides that, there are a lot of libraries on drawing graphs and processing tweets sentiment written in JavaScript.</p>
+
+					<hr />
+
 					<h2>Twitter API</h2>
-					<p>This an the official API developed by Twitter.Inc. It allow developer to extract tweets from Twitter Database.</p>
-					<p>We will connect Twitter API to node.js to retrieve the tweets. We can take user inputs and concatenate them into a query to be send through Twitter API. Tweets retrieved will then be stored in SAP HANA Database.</p>
-					<p>It's free to use. The only publicly available API that allow developer to extract tweets. Work well with Node.js.</p>
+					<p>What is Twitter API</p>
+					<p>This an the official API developed by Twitter.Inc. It allow developer to extract tweets from Twitter Database. However, it will only enable user to extract real time tweets. In other word, user can only extract tweets that are being tweeted.</p>
+					<p>How to use.</p>
+					<p>We will connect Twitter API to node.js to retrieve the tweets. We will take user inputs and concatenate them into a query to be send through Twitter API. Tweets retrieved will then be stored in our MySQL database.</p>
+					<p>Why we decided to use this API  </p>
+					<p>It's free to use. In fact, it is the only publicly available API that allow developers to extract tweets from Twitter Database. This API have also written in multiple programming language which one of them is javascript (the language that makes up Node.js).</p>
 					<a href="https://dev.twitter.com/rest/public" target="_blank">https://dev.twitter.com/rest/public</a>
 					<hr />
 
-					<h2>Node.js</h2>
-					<p>Node.js is an interface to the V8 JavaScript runtime. It is mainly used for developing server-side web application. It is written mainly in JavaScript.</p>
-					<p>We will connect Twitter API to node.js to retrieve the tweets. We will use node.js to render a html with neccessary input such a text input for user to insert keyword to be searched. We will also use the Node.Js to render the dashboard shown in the mock up dashboard.</p>
-					<p>One of our member has some experience in Node.js. Node.js is very simple to be used and deployed. There are twitter api module for node.js.</p>
-					<a href="https://nodejs.org/en/" target="_blank">https://node,js.org</a>
+					<h2>AlchemyAPI</h2>
+					<p>What is AlchemyAPI</p>
+					<p>AlchemyAPI is a REST API that uses natural language processing technology and machine learning algorithms to extract semantic meta-data from content, such as information on people, places, companies, topics, facts, relationships, authors, and languages. The feature that we are going to use is the sentiment processing. Given a text, AlchemyAPI would return the sentiment of the text. It could be positive, neutral or negative.</p>
+					<p>How to use</p>
+					<p>First, we would request for tweets from Twitter API. Then, we would send a request to the AlchemyAPI for each tweets extracted. We would then insert the result into a table ( this table would be reseted).</p>
+					<p>Why use ?</p>
+					<p>It’s is relatively accurate compared to other APIs. Due to it being host on a fast server, the response is also fast.</p>
 					<hr />
-
-					<h2>SAP HANA</h2>
-					<p>SAP HANA is a computing platform that focuses on relational database. It combines database,application processing and integration services on a single platform.</p>
-					<p>Tweets Extracted from Twitter API will be inserted into the database handled by SAP HANA. Tweets in the database will be processed by SAP HANA's algorithms into sentiment data. SAP HANA will also process the data to find out which users are more influential. The processed tweets will be stored in another table which we connect to the dashboard.</p>
-					<p>It has a free trial version which is sufficient to be used. It is easy to use and there are complete tutorials on how to use this platform.</p>
-					<a href="http://go.sap.com/uk/index.html" target="_blank">go.sap.com</a>
-<hr />
-					<h2>Historical Data</h2>
-					<h4>Pros</h4>
-					<p>More more efficient (easier to collect a large amount of data as the data is already there compared to real time where you have to wait a certain period of time to sufficient collect data and so its less time consuming). More consistent (usually product cycle demands reports are in daily, weekly, monthly or annually and its not possible with real time). Extract more data than realtime data in the same amount of time.</p>
-					<h4>Cons</h4>
-					<p>Softwares that allow you to extract tweets are usually realtime (this will reduce the number of available software to use) [as long as we are able to find a good software that provides historic then we can use it]. We have to pay to get the historical tweets.</p>
-<hr />
-					<h2>RealTime Data</h2>
-					<h4>Pros</h4>
+					<h2>Comparison Historical Tweets and Realtime Tweets</h2>
+					<h4>PROS</h4>
+					<p>More more efficient (easier to collect a large amount of data as the data is already there compared to real time where you have to wait a certain period of time to sufficient collect data and so its less time consuming). More consistent (usually product cycle demands reports are in daily, weekly, monthly or annually and its not possible with real time). Extract more data than realtime data in the same amount of time. </p>
+					<h4>CONS</h4>
+					<p>Softwares that allow you to extract tweets are usually realtime (this will reduce the number of available software to use) [as long as we are able to find a good software that provides historic then we can use it]. We have to pay to get the historical tweets. </p>
+					<hr />
+					<h2>REALTIME DATA</h2>
+					<h4>PROS</h4>
 					<p>Tweets are more up to date. Extracting realtime tweets is free.</p>
-					<h4>Cons</h4>
-					<p>Takes more time to get the tweets (this may be negligible depending on the circumstances). The speed depends on the popularity of the products (for more famous products the data will be more as more tweets will be created per second).</p>
-
-					<h4>We have decided to use Realtime Data.</h4>
-<hr />
-					<h2>Correlation</h2>
+					<h4>CONS</h4>
+					<p> Takes more time to get the tweets (this may be negligible depending on the circumstances). The speed depends on the popularity of the products (for more famous products the data will be more as more tweets will be created per second).
+					</p>
+					<p>In term of relevancy, we would choose historial tweets but since historical tweets is not free. We decided to emulate historical tweets by having a machine running 24 hours extracting realtime tweets which would be store inside a mysql. We will extracting the tweets for 2 weeks. Our project would be requesting tweets from our database whenever we need rather than extracting using Twitter API directly.</p>
+					<hr />
+					<h2>CORRELATION</h2>
 					<p>Correlation is a statistical technique. Correlation describes the degree of association between two variables. In our project the two variables are:Demand for product x (in units) – loaded from a file, Social media sentiment (Tweets with a positive sentiment) and the extent to which the two factors are correlated is expressed as a coefficient. Of the two variables, one is a dependent variable (Sentiment) the other is independent (Demand).</p>
 
-					<h4>How we will establish the correlation</h4>
-					<p>The sentiment will come from our analysis of Twitter feeds:</p>
-					<p>First we identified the tweets using HashTags and Key Words. Extract tweets, Analyse the text for sentiment and count and rate the positive sentiment vs negative sentiment.</p>
-					<p>Secondly we import demand data from CSV file.</p>
-					<p>Then we can calculate a correlation and display it in a a graphical form.</p>
+					<h4>HOW WE WILL ESTABLISH THE CORRELATION</h4>
+					<p>We will be ploting a graph of demand vs sentiment. Then, we will check the gradients of each consetcutive tuple points. If the gradient is positive, then add 1 to a acummulator else do nothing. Then we divide the accummulator over the number of graident checked.</p>
+					<p>Plotting Graph.</p>
+					<p>We will be using two different libariries for plotting graphs.</p>
+					<hr />
+					<h2>Chart.js</h2>
+					<h4>PROS</h4>
+					<p>● Easy to create use. Only need to include a json object containing all the properties of the graph as a argument.</p>
+					<p>● Support animation without needing to add additional css.</p>
+					<h4>CONS</h4>
+					<p> ● For linegraph and barchat, users can only use numerical data on the y - axis. In other word, the x - axis work only as labels. So, the distance between each consitueve points in x - axis is the same regardless of it’s value.
+					</p>
+					<p>● Cannot place the legend on the y-axis and x-axis.</p>
+					<hr />
+					<h2>D3.js</h2>
+					<h4>PROS</h4>
+					<p>● Both x-axis and y-axis can represent numerical data.</p>
+					<p>● Can place legend on both axes.</p>
+					<h4>CONS</h4>
+					<p> ● Difficult to set up. Different type of graph requires different setups.
+					</p>
+					<p>After dicussing, we decided to use both Chart.js and D3.js. We will use Chart.js for all the graph except the correlation graph which would use D3.js.</p>
 
 
 
