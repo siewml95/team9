@@ -136,7 +136,7 @@ function findTopTweeters(tweeters,callback) {
 }
 
 function createClusters(tweeters,array,index2,callback) {
-   //console.log('fuck4');
+
    var vectors =[];
    var array2 = [];
    var array3 = [];
@@ -201,7 +201,7 @@ function getRidZero(array,callback) {
 
 function finalCluster(tweeters,centroid,callback) {
   var kk = new clusterfck.Kmeans(centroid);
-   console.log('fuck')
+
   siArray(tweeters,function(vectors) {
     var clusters = [0,0,0,0,0,0,0,0,0,0];
 

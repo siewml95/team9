@@ -119,7 +119,7 @@ $('#form').submit(function(event){
              data : response.data
            }
         ]
-      },{scaleFontColor: "#000"});
+      },{defaultFontColor	: "#000"});
       $('.glyphicon.spin.tweeterscluster').addClass('display-none');
 
 
@@ -235,8 +235,10 @@ var myDoughnutChart = new Chart(ctx2).Pie(data);
         .attr('transform', 'translate(0,' + (HEIGHT - MARGINS.bottom) + ')')
         .call(xAxis)
         .append("text")
-           .attr("x", 6)
+           .attr("x", 480)
            .attr("dx", ".71em")
+           .attr("y", -15)
+           .attr("stroke","#EBEBEB")
            .style("text-anchor", "end")
            .text("Demands");
 
@@ -248,6 +250,7 @@ var myDoughnutChart = new Chart(ctx2).Pie(data);
            .attr("transform", "rotate(-90)")
            .attr("y", 6)
            .attr("dy", ".71em")
+           .attr("stroke","#EBEBEB")
            .style("text-anchor", "end")
            .text("Sentiments");
         var lineFunc = d3.svg.line()
