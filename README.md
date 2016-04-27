@@ -19,3 +19,7 @@ Enter into the directory and enter command npm install
 
 Enter npm start on command line
 Open up a broswer and enter http://localhost:3000 on the url of the browser
+
+###Limitation
+
+Due to we using trial AlchemyAPI version, 
