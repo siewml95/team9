@@ -1,8 +1,8 @@
 # team9
 
-#h1 SETTING UP
+# SETTING UP
 
-#h2 INSTALLING NODE.JS
+# INSTALLING NODE.JS
 
 Go to Node.js website
 Follow instruction to install Node.js
