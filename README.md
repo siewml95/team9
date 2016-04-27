@@ -1,8 +1,8 @@
 # Team9
 
-## SETTING UP
+## Setting Up
 
-### INSTALLING NODE.JS
+### Installing Node.js
 
 Go to Node.js website
 Follow instruction to install Node.js
