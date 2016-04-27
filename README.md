@@ -22,7 +22,9 @@ Open up a broswer and enter http://localhost:3000 on the url of the browser
 
 ###Limitation
 
-Due to we using trial AlchemyAPI version, we can get 1000 sentiments per day
+Due to we using trial AlchemyAPI version, we can get 1000 sentiments per day .
+
+Also, we only extracted Tweets from 1st February 2016 to 20 February 2016. So try only between these two dates. 
 
 ###Example File
 
